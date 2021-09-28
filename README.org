@@ -1,0 +1,23 @@
+#+TITLE: freikugel (HP ENVY dv6)
+
+* Summary
+
+This repository contains configuration files for my daily work machine. My system uses GNU Guix with dotfiles managed by GNU Stow. It's always up to date and synced with the host machine, so it's really handy for quickly rebuilding the last
+working generation of my system in an emergency.
+
+My kit is lightweight because I'm using a relatively old laptop (7 years) and I prefer an uncluttered workflow.
+
+* Structure
+
+The reconstruction of my system is a multi-step process documented and generated from Org files as follows:
+
++ System.org: defines the system configuration and packages required just to get it up and running
++ Desktop.org: defines the configuration needed to get my desktop environment situated the way I like it
++ Env.org: defines the configuration needed to replicate my development environment
++ Apps.org: defines configuration needed for miscellaneous apps (MPD, MPV, etc...)
+
+** Rationale
+
+I wanted the parts of my system to be organized into layers that I can add or remove from without affecting the state of the others. The exception is System.org which /must/ be generated before any of the other layers will work properly.
+
+It's a crude organization at the moment, but it will do until I understand more about Guix profiles and manifests.
