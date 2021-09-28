@@ -269,7 +269,7 @@ loginctl reboot
   (firmware (list linux-firmware))
 
   ;; Then define some basic system information
-  (host-name "titanomachia")
+  (host-name "freikugel")
   (timezone "America/New_York")
   (locale "en_US.utf8")
   (keyboard-layout (keyboard-layout "us" "intl"))
