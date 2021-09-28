@@ -1,4 +1,4 @@
-#+TITLE: freikugel (HP ENVY dv6)
+#+TITLE: freikugel
 
 * Summary
 
