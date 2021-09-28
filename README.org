@@ -18,6 +18,6 @@ The reconstruction of my system is a multi-step process documented and generated
 
 ** Rationale
 
-I wanted the parts of my system to be organized into layers that I can add or remove from without affecting the state of the others. The exception is System.org which /must/ be generated before any of the other layers will work properly.
+I wanted the parts of my system to be organized into layers that I can add or remove from without affecting the state of the others. The exception is System.org as the other layers are built on its foundation.
 
 It's a crude organization at the moment, but it will do until I understand more about Guix profiles and manifests.
