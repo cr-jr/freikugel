@@ -1,0 +1,386 @@
+#+TITLE: System Configuration (GNU Guix)
+#+PROPERTY: header-args :mkdirp yes
+
+* Table of Contents :TOC@4:
+- [[#summary][Summary]]
+- [[#why-guix][Why Guix?]]
+  - [[#declarative][Declarative]]
+  - [[#transactional][Transactional]]
+  - [[#reproducible][Reproducible]]
+  - [[#environment-isolation][Environment Isolation]]
+- [[#setup][Setup]]
+  - [[#nonguix-channel][Nonguix channel]]
+  - [[#installation-image][Installation Image]]
+    - [[#system-crafters][System Crafters]]
+    - [[#guix-manually][Guix (Manually)]]
+- [[#installation][Installation]]
+  - [[#1-partition-the-disks][1. Partition the disks]]
+  - [[#2-create-and-mount-filesystems][2. Create and mount filesystems]]
+  - [[#3-connect-to-the-internet][3. Connect to the internet]]
+  - [[#4-initialize-cow-store][4. Initialize cow-store]]
+  - [[#4-clone-the-repo][4. Clone the repo]]
+  - [[#5-prep-the-nonguix-channels][5. Prep the nonguix channels]]
+  - [[#6-initialize-the-new-system][6. Initialize the new system]]
+  - [[#7-reboot][7. Reboot]]
+- [[#system-configuration][System Configuration]]
+
+* Summary
+
+GNU Guix is incredibly powerful and shifted the way I think about system administration in ways that made it actually painful to use other distros after it.
+
+* Why Guix?
+
+GNU Guix is a declarative, transactional package manager developed on the shoulders of Nix that is capable of creating entirely reproducible machine configurations.
+
+Below, I emphasize some of the things I love about it. If you really want to dig into what Guix is about, [[https://ambrevar.xyz/guix-advance/][this article is an excellent primer]].
+
+** Declarative
+
+Guix configurations are written in Guile scheme. Everything from package definitions to system configurations use it under the hood. This provides me with the power of a full programming language and nearly infinite capability to extend and modify my
+system the way I want.
+
+** Transactional
+
+Its transactional nature means that builds either succeed or fail with no chance of falling into a partially updated limbo. Guix maintains the history of each transaction as /generations/ which can be toggled and rolled backed, effectively preserving the last working state.
+
+** Reproducible
+
+Its reproducibility means that the system can effectively replicate itself under vastly different contexts. Which allows me to do insane shit like creating a virtual machine image to lab a major change to my environment without affecting the host
+machine or a disk image so I can take my exact computing environment /anywhere/.
+
+** Environment Isolation
+
+Guix allows a clean separation between system state and user state. Each user can have their own version of Guix coexisting with their particular package definitions. My three favorite features converge here to vanquish dependency hell as
+every package can be locked to a given version, while allowing multiple versions of itself and in-place updates. That's right... You can update packages without fear that it'll affect some other package.
+
+And I must say this again—every operation is transactional. Even user package management. Guix maintains a separate generation list for each user with the same superpowers as system generations.
+
+* Setup
+
+The first thing I need to rebuild my system is a Guix installation image. That said, I can't use the standard one because my machine uses proprietary components. Lucky for me, [[https://gitlab.com/nonguix/nonguix][the nonguix project exists]].
+
+This excellent repo provides a Guix channel containing "non-free" packages. The ones I need in particular are the standard Linux kernel and firmware.
+
+** Nonguix channel
+
+Before anything else will work, I need the Guix channel declaration. During installation, this channel will be pulled in so I can use the packages from it to build my system.
+
+#+BEGIN_SRC scheme :tangle system/etc/guix/channels.scm
+(cons* (channel
+        (name 'nonguix)
+        (url "https://gitlab.com/nonguix/nonguix")
+        ;; Enable signature verification:
+        (introduction
+         (make-channel-introduction
+          "897c1a470da759236cc11798f4e0a5f7d4d59fbc"
+          (openpgp-fingerprint
+           "2A39 3FFF 68F4 EF7A 3D29  12AF 6F51 20A0 22FB B2D5"))))
+       %default-channels)
+#+END_SRC
+
+This snippet is generated as =channels.scm= and should be dropped into =/etc/guix= for the system to use. /User/ channel declarations should live at =~/.config/guix=.
+
+Next, run =guix pull= to tell the system about the channel.
+
+** Installation Image
+
+*** System Crafters
+
+System Crafters provides [[https://github.com/SystemCrafters/guix-installer/releases][a ready-to-roll disk image]] with the nonguix packages (and a few extras). This is my preferred way.
+
+*** Guix (Manually)
+
+To create the image from /within/ Guix, use the following command:
+
+#+BEGIN_SRC shell
+guix system image --image-size=800MiB /path/to/freikugel/system/install.scm
+#+END_SRC
+
+Where =install.scm= contains:
+
+#+BEGIN_SRC scheme :tangle system/install.scm
+;;; Copyright © 2019 Alex Griffin <a@ajgrf.com>
+;;; Copyright © 2019 Pierre Neidhardt <mail@ambrevar.xyz>
+;;;
+;;; This program is free software: you can redistribute it and/or modify
+;;; it under the terms of the GNU General Public License as published by
+;;; the Free Software Foundation, either version 3 of the License, or
+;;; (at your option) any later version.
+;;;
+;;; This program is distributed in the hope that it will be useful,
+;;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;;; GNU General Public License for more details.
+;;;
+;;; You should have received a copy of the GNU General Public License
+;;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+;; Generate a bootable image (e.g. for USB sticks, etc.) with:
+;; $ guix system disk-image nongnu/system/install.scm
+
+(define-module (nongnu system install)
+  #:use-module (gnu system)
+  #:use-module (gnu system install)
+  #:use-module (nongnu packages linux)
+  #:export (installation-os-nonfree))
+
+(define installation-os-nonfree
+  (operating-system
+    (inherit installation-os)
+    (kernel linux)
+    (firmware (list linux-firmware))))
+
+installation-os-nonfree
+#+END_SRC
+
+Next, I need to get the image on a USB stick.
+
+#+BEGIN_SRC shell
+# /dev/sdb is an example. The actual device may vary
+dd if=/path/to/disk-image of=/dev/sdb bs=4M status=progress oflag=sync
+#+END_SRC
+
+* Installation
+
+This section assumes I've loaded the installation media and selected the manual installation process.
+
+** 1. Partition the disks
+
+My disk is split into four partitions. The EFI system partition, swap space, the root filesystem, and my home directory. I use =cfdisk= to create the partitions as follows:
+
+|-------------+-------------+--------+--------------------------|
+| Device      | Mount Point | Label  | Size                     |
+|-------------+-------------+--------+--------------------------|
+| =/dev/sda1= | =/boot/efi= | =BOOT= | 512MB                    |
+| =/dev/sda2= | [swap]      | =SWAP= | 2x RAM                   |
+| =/dev/sda3= | =/=         | =ROOT= | 1/5 of disk space        |
+| =/dev/sda4= | =/home=     | =HOME= | All remaining disk space |
+
+** 2. Create and mount filesystems
+
+#+BEGIN_SRC shell
+# Root filesystem
+mkfs.ext4 -L ROOT /dev/sda3
+mount LABEL=ROOT /mnt
+
+# EFI System partition
+mkfs.fat -F32 /dev/sda1
+fatlabel /dev/sda1 BOOT
+mkdir -p /mnt/boot/efi
+mount LABEL=BOOT /mnt/boot/efi
+
+# Home directory
+mkfs.ext4 -L HOME /dev/sda4
+mkdir /mnt/home
+mount LABEL=HOME /mnt/home
+
+# Swap space
+mkswap -L SWAP /dev/sda2
+swapon /dev/sda2
+#+END_SRC
+
+** 3. Connect to the internet
+
+#+BEGIN_SRC shell
+# Unblock network interface
+rfkill unblock all
+
+# Connect
+ip link set wlan0 up
+wpa_supplicant -B -i wlan0 -c <(wpa_passphrase ssid passphrase)
+dhclient -v wlan0
+
+# Test
+ping -c gnu.org
+#+END_SRC
+
+** 4. Initialize cow-store
+
+#+BEGIN_SRC shell
+herd start cow-store /mnt
+#+END_SRC
+
+** 4. Clone the repo
+
+#+BEGIN_SRC shell
+git clone https://github.com/cr-jr/freikugel.git
+#+END_SRC
+
+** 5. Prep the nonguix channels
+
+#+BEGIN_SRC shell
+cp -v freikugel/system/etc/guix/channels.scm /mnt/etc/guix
+guix pull
+hash guix
+#+END_SRC
+
+** 6. Initialize the new system
+
+#+BEGIN_SRC shell
+cp -v freikugel/system/etc/config.scm /mnt/etc
+guix system init /mnt/etc/config.scm /mnt
+#+END_SRC
+
+** 7. Reboot
+
+#+BEGIN_SRC shell
+loginctl reboot
+#+END_SRC
+
+* System Configuration
+
+#+BEGIN_SRC scheme :tangle system/etc/config.scm
+;; This is the system configuration for my main machine. Since it uses
+;; proprietary hardware, I need to use the nonguix channel to ensure I
+;; have the correct kernel and firmware.
+
+(use-modules
+ (gnu)
+ (srfi srfi-1)
+ (gnu system nss)
+ (nongnu packages linux)
+ (nongnu system linux-initrd))
+
+(use-service-modules
+ admin pm desktop sddm xorg virtualization file-sharing syncthing ssh docker nix)
+
+(use-package-modules
+ curl
+ wget
+ file-systems
+ linux
+ gnome
+ audio
+ freedesktop
+ emacs
+ terminals
+ bootloaders
+ certs
+ wm
+ xorg
+ package-management
+ version-control
+ shells)
+
+(operating-system
+  ;; First, load up the main linux kernel instead of linux-libre.
+  (kernel linux)
+  (initrd microcode-initrd)
+  (firmware (list linux-firmware))
+
+  ;; Then define some basic system information
+  (host-name "titanomachia")
+  (timezone "America/New_York")
+  (locale "en_US.utf8")
+  (keyboard-layout (keyboard-layout "us" "intl"))
+
+  ;; Next, define my devices and their mount points. I configured my system
+  ;; with distinct "BOOT", "ROOT", and "HOME" partitions. Referred to by
+  ;; their explicit UUIDs.
+  (file-systems (append
+                 (list (file-system
+       (device (uuid "F949-2F26" 'fat))
+       (mount-point "/boot/efi")
+       (type "vfat"))
+           (file-system
+       (device (uuid "d66d6de0-4968-4bdd-9aea-18525c06dad6"))
+       (mount-point "/")
+       (type "ext4"))
+           (file-system
+       (device (uuid "29eca1a4-84b3-47f8-b9d7-088e2f963f94"))
+       (mount-point "/home")
+       (type "ext4")))
+                 %base-file-systems))
+
+  ;; My system also defines a partition used for swap space, labeled "SWAP".
+  (swap-devices (list (uuid "55f2d49f-f4e9-4b8b-bef1-6634c2404937")))
+
+  ;; Finally, to ensure a proper boot, my system uses the GRUB bootloader.
+  ;; Note: my system is also UEFI, so it's configured accordingly. I may get
+  ;; an itch to try other bootloaders, but not today.
+  (bootloader
+   (bootloader-configuration
+    (bootloader grub-efi-bootloader)
+    (keyboard-layout keyboard-layout)
+    (targets '("/boot/efi"))))
+
+  ;; Now, I initialize and configure some useful services for my daily work.
+  ;; This includes a simple desktop environment with the necessary wiring.
+  ;;
+  ;; Unattended upgrades are a helpful way for me to stay on top of system
+  ;; and package updates and not worry about whether I have the latest kit.
+  (services (cons*
+       (service unattended-upgrade-service-type)
+       (service tlp-service-type
+          (tlp-configuration
+           (cpu-boost-on-ac? #t)
+           (wifi-pwr-on-bat? #t)))
+       (service sddm-service-type
+          (sddm-configuration
+           (display-server "wayland")))
+       (service libvirt-service-type)
+       (service virtlog-service-type)
+       (service qemu-binfmt-service-type
+          (qemu-binfmt-configuration
+           (platforms (lookup-qemu-platforms "arm" "aarch64"))))
+       (service transmission-daemon-service-type
+          (transmission-daemon-configuration
+           ;; Restrict RPC access
+           (rpc-username "transmission")
+           (rpc-password "{464b30ba31cfe83ffb5692cf78e26613f4d4b865S4sCVYvH")
+           ;; Accept requests only from following hosts:
+           (rpc-whitelist-enabled? #t)
+           (rpc-whitelist '("::1" "127.0.0.1" "192.168.1.*"))
+           ;; Limit bandwidth during work hours
+           (alt-speed-down 1024) ; 1 MB/s
+           (alt-speed-up 256) ; 256 KB/s
+
+           (alt-speed-time-enabled? #t)
+           (alt-speed-time-day 'weekdays)
+           (alt-speed-time-begin
+      (* 60 10)) ; 10:00 am
+           (alt-speed-time-end
+      (* 60 (+ 12 4))))) ; 4:00 pm
+       (service syncthing-service-type
+          (syncthing-configuration (user "cr-jr")))
+       (service openssh-service-type)
+       (service singularity-service-type)
+       (service nix-service-type)
+       (modify-services %desktop-services
+               (delete gdm-service-type))))
+
+  ;; Setup base packages for system functionality
+  (packages (append (list
+         ;; utilities
+         git curl wget exfat-utils fuse-exfat stow nss-certs gvfs tlp
+         bluez bluez-alsa ntfs-3g udiskie
+         ;; editors
+         emacs
+         ;; terminal
+         fish kitty bpytop transmission singularity python mpd-mpc ncmpcpp
+         ;; desktop
+         sway swaybg swaylock swayidle mako waybar kanshi egl-wayland qtwayland wl-clipboard
+         python-pywal font-awesome pipewire wofi dex xsettingsd (list gtk+ "bin") mpd
+         ;; apps
+         mpv qutebrowser
+         ;; extra packages
+         nix)
+        %base-packages))
+
+  ;; Create my username: cr-jr
+  (users (cons (user-account
+    (name "cr-jr")
+    (group "users")
+    (comment "Chatman R. Jr")
+    (shell (file-append fish "/bin/fish"))
+    (home-directory "/home/cr-jr")
+    (supplementary-groups
+     '("wheel" "netdev" "kvm" "tty" "input" "lp" "audio" "video" "libvirt")))
+               %base-user-accounts))
+
+  ;; Create system groups
+  (groups %base-groups)
+
+  ;; Allow resolution of '.local' host names with mDNS.
+  (name-service-switch %mdns-host-lookup-nss))
+#+END_SRC
