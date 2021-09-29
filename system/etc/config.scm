@@ -23,6 +23,7 @@
  emacs
  terminals
  virtualization
+ admin
  bootloaders
  certs
  wm
