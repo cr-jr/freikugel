@@ -24,6 +24,7 @@
  terminals
  virtualization
  admin
+ bittorrent
  bootloaders
  certs
  wm

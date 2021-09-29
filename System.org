@@ -256,6 +256,7 @@ loginctl reboot
  terminals
  virtualization
  admin
+ bittorrent
  bootloaders
  certs
  wm
