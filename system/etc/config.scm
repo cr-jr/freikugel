@@ -63,24 +63,24 @@
 
   ;; Next, define my devices and their mount points. I configured my system
   ;; with distinct "BOOT", "ROOT", and "HOME" partitions. Referred to by
-  ;; their labels.
+  ;; their explicit UUIDs.
   (file-systems (append
                  (list (file-system
-       (device (file-system-label "BOOT"))
+       (device (uuid "F949-2F26" 'fat))
        (mount-point "/boot/efi")
        (type "vfat"))
            (file-system
-       (device (file-system-label "ROOT"))
+       (device (uuid "d66d6de0-4968-4bdd-9aea-18525c06dad6"))
        (mount-point "/")
        (type "ext4"))
            (file-system
-       (device (file-system-label "HOME"))
+       (device (uuid "29eca1a4-84b3-47f8-b9d7-088e2f963f94"))
        (mount-point "/home")
        (type "ext4")))
                  %base-file-systems))
 
   ;; My system also defines a partition used for swap space, labeled "SWAP".
-  (swap-devices (list (file-system-label "SWAP")))
+  (swap-devices (list (uuid "55f2d49f-f4e9-4b8b-bef1-6634c2404937")))
 
   ;; Finally, to ensure a proper boot, my system uses the GRUB bootloader.
   ;; Note: my system is also UEFI, so it's configured accordingly. I may get
