@@ -26,7 +26,16 @@
  admin
  bittorrent
  python
+ python-xyz
  mpd
+ graphics
+ qt
+ gtk
+ cmake
+ xdisorg
+ fonts
+ video
+ web-browsers
  bootloaders
  certs
  wm
@@ -130,7 +139,7 @@
          ;; editors
          emacs
          ;; terminal
-         fish kitty bpytop transmission singularity python mpd-mpc ncmpcpp
+         fish kitty bpytop transmission singularity python mpd-mpc ncmpcpp cmake
          ;; desktop
          sway swaybg swaylock swayidle mako waybar kanshi egl-wayland qtwayland wl-clipboard
          python-pywal font-awesome pipewire wofi dex xsettingsd (list gtk+ "bin") mpd
