@@ -31,11 +31,15 @@
  graphics
  qt
  gtk
+ kde
  cmake
  xdisorg
  fonts
  video
  web-browsers
+ inkscape
+ scribus
+ pdf
  bootloaders
  certs
  wm
@@ -142,9 +146,10 @@
          fish kitty bpytop transmission singularity python mpd-mpc ncmpcpp cmake
          ;; desktop
          sway swaybg swaylock swayidle mako waybar kanshi egl-wayland qtwayland wl-clipboard
-         python-pywal font-awesome pipewire wofi dex xsettingsd (list gtk+ "bin") mpd
+         python-pywal font-awesome pipewire wofi dex xsettingsd (list gtk+ "bin") mpd ; gtk+:bin needed for gsettings
          ;; apps
-         mpv qutebrowser virt-manager
+         mpv qutebrowser virt-manager nautilus krita inkscape scribus
+         zathura zathura-pdf-mupdf zathura-djvu zathura-cb zathura-ps
          ;; extra packages
          nix)
         %base-packages))
