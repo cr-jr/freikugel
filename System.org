@@ -222,7 +222,7 @@ guix system init /mnt/etc/config.scm /mnt
 ** 7. Reboot
 
 #+BEGIN_SRC shell
-loginctl reboot
+reboot
 #+END_SRC
 
 * System Configuration
