@@ -26,6 +26,7 @@
  admin
  bittorrent
  python
+ mpd
  bootloaders
  certs
  wm
