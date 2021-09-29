@@ -22,6 +22,7 @@
  freedesktop
  emacs
  terminals
+ virtualization
  bootloaders
  certs
  wm
@@ -37,7 +38,7 @@
   (firmware (list linux-firmware))
 
   ;; Then define some basic system information
-  (host-name "titanomachia")
+  (host-name "freikugel")
   (timezone "America/New_York")
   (locale "en_US.utf8")
   (keyboard-layout (keyboard-layout "us" "intl"))
@@ -130,7 +131,7 @@
          sway swaybg swaylock swayidle mako waybar kanshi egl-wayland qtwayland wl-clipboard
          python-pywal font-awesome pipewire wofi dex xsettingsd (list gtk+ "bin") mpd
          ;; apps
-         mpv qutebrowser
+         mpv qutebrowser virt-manager
          ;; extra packages
          nix)
         %base-packages))

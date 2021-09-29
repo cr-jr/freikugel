@@ -254,6 +254,7 @@ loginctl reboot
  freedesktop
  emacs
  terminals
+ virtualization
  bootloaders
  certs
  wm
@@ -362,7 +363,7 @@ loginctl reboot
          sway swaybg swaylock swayidle mako waybar kanshi egl-wayland qtwayland wl-clipboard
          python-pywal font-awesome pipewire wofi dex xsettingsd (list gtk+ "bin") mpd
          ;; apps
-         mpv qutebrowser
+         mpv qutebrowser virt-manager
          ;; extra packages
          nix)
         %base-packages))
