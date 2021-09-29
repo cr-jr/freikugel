@@ -40,6 +40,7 @@
  inkscape
  scribus
  pdf
+ terminals
  bootloaders
  certs
  wm
@@ -143,7 +144,7 @@
          ;; editors
          emacs
          ;; terminal
-         fish kitty bpytop transmission singularity python mpd-mpc ncmpcpp cmake
+         fish kitty bpytop transmission singularity python mpd-mpc ncmpcpp cmake libvterm
          ;; desktop
          sway swaybg swaylock swayidle mako waybar kanshi egl-wayland qtwayland wl-clipboard
          python-pywal pipewire wofi dex xsettingsd (list gtk+ "bin") mpd ; gtk+:bin needed for gsettings
