@@ -12,7 +12,7 @@ My kit is lightweight because I'm using a relatively old laptop (7 years) and I 
 The reconstruction of my system is a multi-step process documented and generated from Org files as follows:
 
 + System.org: defines the system configuration and packages required just to get it up and running
-+ Env.org: defines the configuration needed to replicate my development environment
++ Env.org: defines the configuration needed to replicate my home and dev environment
 + Desktop.org: defines the configuration needed to get my desktop environment situated the way I like it
 + Apps.org: defines configuration needed for miscellaneous apps (MPD, MPV, etc...)
 
