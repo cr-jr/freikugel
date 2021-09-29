@@ -258,6 +258,7 @@ loginctl reboot
  admin
  bittorrent
  python
+ mpd
  bootloaders
  certs
  wm
