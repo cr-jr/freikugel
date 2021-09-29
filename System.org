@@ -184,7 +184,7 @@ wpa_supplicant -B -i wlan0 -c <(wpa_passphrase ssid passphrase)
 dhclient -v wlan0
 
 # Test
-ping -c gnu.org
+ping -c 3 gnu.org
 #+END_SRC
 
 ** 4. Initialize cow-store
