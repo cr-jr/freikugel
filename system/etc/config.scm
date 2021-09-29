@@ -146,7 +146,8 @@
          fish kitty bpytop transmission singularity python mpd-mpc ncmpcpp cmake
          ;; desktop
          sway swaybg swaylock swayidle mako waybar kanshi egl-wayland qtwayland wl-clipboard
-         python-pywal font-awesome pipewire wofi dex xsettingsd (list gtk+ "bin") mpd ; gtk+:bin needed for gsettings
+         python-pywal pipewire wofi dex xsettingsd (list gtk+ "bin") mpd ; gtk+:bin needed for gsettings
+         font-google-noto font-victor-mono font-awesome
          ;; apps
          mpv qutebrowser virt-manager nautilus krita inkscape scribus
          zathura zathura-pdf-mupdf zathura-djvu zathura-cb zathura-ps
