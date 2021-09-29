@@ -2,8 +2,8 @@
 
 * Summary
 
-This repository contains configuration files for my daily work machine. My system uses GNU Guix with dotfiles managed by GNU Stow. It's always up to date and synced with the host machine, so it's really handy for quickly rebuilding the last
-working generation of my system in an emergency.
+This repository contains configuration files for my daily work machine. My system uses GNU Guix with dotfiles managed by GNU Stow. It's always up to date and synced with the host machine, so it's really handy for reproducing the last
+working state of my system in an emergency.
 
 My kit is lightweight because I'm using a relatively old laptop (7 years) and I prefer an uncluttered workflow.
 
@@ -12,8 +12,8 @@ My kit is lightweight because I'm using a relatively old laptop (7 years) and I 
 The reconstruction of my system is a multi-step process documented and generated from Org files as follows:
 
 + System.org: defines the system configuration and packages required just to get it up and running
-+ Desktop.org: defines the configuration needed to get my desktop environment situated the way I like it
 + Env.org: defines the configuration needed to replicate my development environment
++ Desktop.org: defines the configuration needed to get my desktop environment situated the way I like it
 + Apps.org: defines configuration needed for miscellaneous apps (MPD, MPV, etc...)
 
 ** Rationale
