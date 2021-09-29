@@ -159,24 +159,17 @@ My disk is split into four partitions. The EFI system partition, swap space, the
 ** 2. Create and mount filesystems
 
 #+BEGIN_SRC shell
-# Root filesystem
-mkfs.ext4 -L ROOT /dev/sda3
-mount LABEL=ROOT /mnt
+# /
+mkfs.ext4 -L ROOT /dev/sda3; mount LABEL=ROOT /mnt
 
-# EFI System partition
-mkfs.fat -F32 /dev/sda1
-fatlabel /dev/sda1 BOOT
-mkdir -p /mnt/boot/efi
-mount LABEL=BOOT /mnt/boot/efi
+# /boot/efi
+mkfs.fat -F32 /dev/sda1; fatlabel /dev/sda1 BOOT; mkdir -p /mnt/boot/efi; mount LABEL=BOOT /mnt/boot/efi
 
-# Home directory
-mkfs.ext4 -L HOME /dev/sda4
-mkdir /mnt/home
-mount LABEL=HOME /mnt/home
+# /home
+mkfs.ext4 -L HOME /dev/sda4; mkdir /mnt/home; mount LABEL=HOME /mnt/home
 
 # Swap space
-mkswap -L SWAP /dev/sda2
-swapon /dev/sda2
+mkswap -L SWAP /dev/sda2; swapon /dev/sda2
 #+END_SRC
 
 ** 3. Connect to the internet
@@ -210,16 +203,13 @@ git clone https://github.com/cr-jr/freikugel.git
 
 #+BEGIN_SRC shell
 # copy locally for the installation
-mkdir -p .config/guix
-cp -v freikugel/system/etc/guix/channels.scm .config/guix
+mkdir -p .config/guix; cp -v freikugel/system/etc/guix/channels.scm .config/guix
 
 # copy to the host system
-mkdir -p /mnt/etc/guix
-cp -v freikugel/system/etc/guix/channels.scm /mnt/etc/guix
+mkdir -p /mnt/etc/guix; cp -v freikugel/system/etc/guix/channels.scm /mnt/etc/guix
 
 # update and check
-guix pull
-hash guix
+guix pull && hash guix
 #+END_SRC
 
 ** 6. Initialize the new system
