@@ -257,6 +257,7 @@ loginctl reboot
  virtualization
  admin
  bittorrent
+ python
  bootloaders
  certs
  wm

@@ -25,6 +25,7 @@
  virtualization
  admin
  bittorrent
+ python
  bootloaders
  certs
  wm
