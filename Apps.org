@@ -1,0 +1,80 @@
+#+TITLE: App Configurations
+#+PROPERTY: header-args :mkdirp yes
+
+* Table of Contents :TOC@4:
+- [[#summary][Summary]]
+- [[#installation][Installation]]
+- [[#apps][Apps]]
+  - [[#terminal][Terminal]]
+  - [[#editor][Editor]]
+  - [[#music][Music]]
+    - [[#mpd][mpd]]
+  - [[#video][Video]]
+    - [[#mpv][mpv]]
+
+* Summary
+
+This document contains the configuration for my most used apps. It sits independent of the system, but requires the desktop environment to be functional. After installing this
+layer, the only thing that remains is my sensitive information and personal files.
+
+* Installation
+
+#+BEGIN_SRC shell
+stow -d /path/to/freikugel -t $HOME apps
+#+END_SRC
+
+* Apps
+
+** Terminal
+
+#+BEGIN_SRC conf-unix :tangle apps/.config/kitty/kitty.conf
+# Setup fonts
+font_family Input Mono
+font_size 10.0
+
+# Colors
+
+include ~/.cache/wal/colors-kitty.conf
+background_opacity 0.9
+
+# Functionality
+allow_remote_control yes
+#+END_SRC
+
+
+** Editor
+
+My Emacs configuration is [[https://github.com/cr-jr/C4][pulled from its own repo]].
+
+#+BEGIN_SRC shell
+set -x EMACS_DIR "$HOME/.config/emacs"
+mkdir -p $EMACS_DIR
+git clone https://github.com/cr-jr/C4.git $EMACS_DIR
+emacs --script $EMACS_DIR/init.el
+#+END_SRC
+
+** Music
+
+*** mpd
+
+#+BEGIN_SRC conf :tangle apps/.config/mpd/mpd.conf
+music_directory		"~/Music"
+
+audio_output {
+  type		"pulse"
+  name		"Pipewire (PulseAudio Replacement)"
+}
+#+END_SRC
+
+** Video
+
+*** mpv
+
+#+BEGIN_SRC conf :tangle apps/.config/mpv/mpv.conf
+# Wayland
+gpu-context=wayland
+
+# Hardware decoding
+hwdec=auto
+profile=gpu-hq
+#+END_SRC
