@@ -359,6 +359,11 @@ output * bg $wallpaper fill
 
 ** GTK+
 
+#+BEGIN_SRC conf :tangle desktop/.xsettingsd
+Net/ThemeName "FlatColor"
+Net/IconThemeName "flattrcolor"
+#+END_SRC
+
 #+BEGIN_SRC conf-unix :tangle desktop/.config/gtk-3.0/settings.ini
 [Settings]
 gtk-theme-name=FlatColor
