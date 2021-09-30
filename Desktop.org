@@ -18,6 +18,7 @@
 - [[#status-bar][Status Bar]]
   - [[#modules][Modules]]
   - [[#theme-1][Theme]]
+- [[#multihead][Multihead]]
 
 * Summary
 
@@ -544,5 +545,18 @@ window#waybar {
 
 #tray * {
   padding: 0 0.3ex;
+}
+#+END_SRC
+
+* Multihead
+
+#+BEGIN_SRC text :tangle desktop/.config/kanshi/config
+profile {
+        output HDMI-A-1 mode 1920x1080 position 0,0 enable
+        output LVDS-1 mode 1366x768 position 1920,312 enable
+}
+
+profile {
+        output HDMI-A-1 disable
 }
 #+END_SRC
