@@ -35,12 +35,9 @@ set $monitor HDMI-A-1
 set $browser qutebrowser
 set $editor emacs
 set $files nautilus
-set $messenger signal-desktop
-set $music nuclear
-set $theming wpg
 set $video mpv
 set $virt virt-manager
 
 # Mode prompts
-set $open "open: (q)uit (b)rowser, (e)ditor, (f)iles, (m)essenger, (M)usic, (t)heming, (v)ideo, (V)irt"
+set $open "open: (q)uit (b)rowser, (e)ditor, (f)iles, (v)ideo, (V)irt"
 set $audio "audio: (q)uit (j) -, (l) +, (k) mute"

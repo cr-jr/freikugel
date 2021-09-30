@@ -110,9 +110,6 @@ mode $open {
      bindsym b exec $browser
      bindsym e exec $editor
      bindsym f exec $files
-     bindsym m exec $messenger
-     bindsym Shift+m exec $music
-     bindsym t exec $theming
      bindsym v exec $video
      bindsym Shift+v $virt
      bindsym q mode "default"
