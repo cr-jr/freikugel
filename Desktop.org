@@ -5,7 +5,16 @@
 - [[#summary][Summary]]
 - [[#installation][Installation]]
 - [[#setup][Setup]]
-  - [[#theming][Theming]]
+- [[#window-manager][Window Manager]]
+  - [[#settings][Settings]]
+  - [[#inputs][Inputs]]
+  - [[#keybindings][keybindings]]
+  - [[#startup][Startup]]
+    - [[#1-create-desktop-entries-for-autostarted-programs][1. Create desktop entries for autostarted programs]]
+    - [[#2-configure-autostart-behavior][2. Configure autostart behavior]]
+  - [[#ui][UI]]
+  - [[#theme][Theme]]
+  - [[#gtk][GTK+]]
 
 * Summary
 
@@ -20,9 +29,7 @@ stow -d /path/to/freikugel -t $HOME desktop
 
 * Setup
 
-** Theming
-
-First, I need to grab my desktop theme manager and grab a wallpaper to generate my colors from. The
+First, I need to grab my desktop theme manager and download a wallpaper to generate my colors from. The
 other parts of my environment use these generated palettes.
 
 #+BEGIN_SRC shell
@@ -50,4 +57,339 @@ bass source $HOME/.cache/wal/colors-tty.sh; and wpg --preview
 
 # Append to config.fish when satisfied
 echo "bass source $HOME/.cache/wal/colors-tty.sh # apply theme to TTY" >> $HOME/.config/fish/config.fish
+#+END_SRC
+
+* Window Manager
+
+Sway is configured with a multilayer setup with each tier responsible for a different part of my
+desktop environment. This helps me keep my config organized as it grows in complexity.
+
+#+BEGIN_SRC conf :tangle desktop/.config/sway/config
+# Config is ordered by module and zero-indexed
+include ~/.config/sway/config.d/*
+#+END_SRC
+
+** Settings
+
+#+BEGIN_SRC conf :tangle desktop/.config/sway/config.d/00-settings
+# Mod keys
+set $mod Mod4
+set $mode_prefix Mod1+space
+
+# Directional keys (custom)
+set $up i
+set $right l
+set $down k
+set $left j
+
+# Terminal
+set $term kitty
+
+# Launcher
+set $appmenu wofi --show drun | xargs swaymsg exec --
+set $execmenu wofi --show run | xargs swaymsg exec --
+
+# Workspaces
+set $ws1 1
+set $ws2 2
+set $ws3 3
+set $ws4 4
+set $ws5 5
+set $ws6 6
+set $ws7 7
+set $ws8 8
+set $ws9 9
+set $ws10 $10
+
+# Outputs
+set $laptop LVDS-1
+set $monitor HDMI-A-1
+
+# Main applications
+set $browser qutebrowser
+set $editor emacs
+set $files nautilus
+set $messenger signal-desktop
+set $music nuclear
+set $theming wpg
+set $video mpv
+set $virt virt-manager
+
+# Mode prompts
+set $open "open: (q)uit (b)rowser, (e)ditor, (f)iles, (m)essenger, (M)usic, (t)heming, (v)ideo, (V)irt"
+set $audio "audio: (q)uit (j) -, (l) +, (k) mute"
+#+END_SRC
+
+** Inputs
+
+#+BEGIN_SRC conf :tangle desktop/.config/sway/config.d/01-inputs
+# Map Caps Lock to CTRL
+input "type:keyboard" {
+      xkb_options ctrl:nocaps
+}
+#+END_SRC
+
+** keybindings
+
+#+BEGIN_SRC conf :tangle desktop/.config/sway/config.d/02-keybindings
+ # Start a terminal
+bindsym $mod+Return exec $term
+
+# Kill focused window
+bindsym $mod+Shift+q kill
+
+# Start your launcher
+bindsym $mod+d exec $execmenu
+bindsym $mod+Shift+d exec $appmenu
+
+# Reload the configuration file
+bindsym $mod+Shift+c reload
+
+# Drag floating windows by holding down $mod and left mouse button.
+# Resize them with right mouse button + $mod.
+# Despite the name, also works for non-floating windows.
+# Change normal to inverse to use left mouse button for resizing and right
+# mouse button for dragging.
+floating_modifier $mod normal
+
+# Move your focus around
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+
+# Move the focused window with the same, but add Shift
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+
+# Switch to prev/next workspace and last focused
+bindsym $mod+Ctrl+$right workspace next
+bindsym $mod+Ctrl+$left workspace prev
+bindsym $mod+Ctrl+$down workspace back_and_forth
+
+# Switch to workspace
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+
+# Move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10
+
+# You can "split" the current object of your focus with
+# $mod+b or $mod+v, for horizontal and vertical splits
+# respectively.
+bindsym $mod+b splith
+bindsym $mod+v splitv
+
+# Switch the current container between different layout styles
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# Make the current focus fullscreen
+bindsym $mod+f fullscreen
+
+# Toggle the current focus between tiling and floating mode
+bindsym $mod+Shift+space floating toggle
+
+# Swap focus between the tiling area and the floating area
+bindsym $mod+space focus mode_toggle
+
+# Move focus to the parent container
+bindsym $mod+a focus parent
+
+# Sway has a "scratchpad", which is a bag of holding for windows.
+# You can send windows there and get them back later.
+
+# Move the currently focused window to the scratchpad
+bindsym $mod+Shift+minus move scratchpad
+
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
+bindsym $mod+minus scratchpad show
+
+mode "resize" {
+    # left will shrink the containers width
+    # right will grow the containers width
+    # up will shrink the containers height
+    # down will grow the containers height
+    bindsym $left resize shrink width 10px
+    bindsym $down resize grow height 10px
+    bindsym $up resize shrink height 10px
+    bindsym $right resize grow width 10px
+    bindsym q mode "default"
+}
+bindsym $mode_prefix+r mode "resize"
+
+# App quick launch
+mode "$open" {
+     bindsym b exec $browser
+     bindsym e exec $editor
+     bindsym f exec $files
+     bindsym m exec $messenger
+     bindsym Shift+m exec $music
+     bindsym t exec $theming
+     bindsym v exec $video
+     bindsym Shift+v $virt
+     bindsym q mode "default"
+}
+bindsym $mode_prefix+l mode "$open"
+
+# Controlling volume from the home row
+mode "$audio" {
+     bindsym $left exec pactl set-sink-volume @DEFAULT_SINK@ -4db
+     bindsym $right exec pactl set-sink-volume @DEFAULT_SINK@ +4db
+     bindsym $down exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+     bindsym q mode "default"
+}
+bindsym $mode_prefix+a mode "$audio"
+#+END_SRC
+
+** Startup
+
+*** 1. Create desktop entries for autostarted programs
+
+#+BEGIN_SRC shell
+mkdir -p $HOME/.config/autostart
+dex -t $HOME/.config/autostart -c /paths /to /programs
+#+END_SRC
+
+*** 2. Configure autostart behavior
+
+#+BEGIN_SRC conf :tangle desktop/.config/sway/config.d/03-startup
+# Autostart programs
+exec dex -a
+
+# Necessary to properly apply GTK2/GTK+ themes under wayland
+exec_always scripts/import-gsettings
+
+# Reload last theme with wpgtk
+exec ~/.config/wpg/wp_init.sh
+#+END_SRC
+
+#+BEGIN_SRC shell :tangle desktop/.config/sway/scripts/import-gsettings :tangle-mode (identity #o755)
+#!/bin/sh
+
+# usage: import-gsettings
+config="${XDG_CONFIG_HOME:-$HOME/.config}/gtk-3.0/settings.ini"
+if [ ! -f "$config" ]; then exit 1; fi
+
+gnome_schema="org.gnome.desktop.interface"
+gtk_theme="$(grep 'gtk-theme-name' "$config" | sed 's/.*\s*=\s*//')"
+icon_theme="$(grep 'gtk-icon-theme-name' "$config" | sed 's/.*\s*=\s*//')"
+cursor_theme="$(grep 'gtk-cursor-theme-name' "$config" | sed 's/.*\s*=\s*//')"
+font_name="$(grep 'gtk-font-name' "$config" | sed 's/.*\s*=\s*//')"
+gsettings set "$gnome_schema" gtk-theme "$gtk_theme"
+gsettings set "$gnome_schema" icon-theme "$icon_theme"
+gsettings set "$gnome_schema" cursor-theme "$cursor_theme"
+gsettings set "$gnome_schema" font-name "$font_name"
+#+END_SRC
+
+** UI
+
+#+BEGIN_SRC conf :tangle desktop/.config/sway/config.d/04-ui
+# Ensure that workspace 1 and 2 output to monitor and laptop
+workspace $ws1 output $monitor $laptop
+workspace $ws2 output $laptop
+
+# borders
+smart_borders on
+default_border pixel
+
+# gaps
+smart_gaps on
+gaps outer 4
+gaps inner 8
+
+# floating size limits
+floating_minimum_size 1024 x 768
+floating_maximum_size 1280 x 720
+
+# Titlebar
+titlebar_padding 4
+
+# Status Bar:
+#
+# Read `man 5 sway-bar` for more information about this section.
+bar {
+    swaybar_command waybar
+}
+#+END_SRC
+
+** Theme
+
+#+BEGIN_SRC conf :tangle desktop/.config/sway/config.d/05-theme
+# Import theme colors
+include ~/.cache/wal/colors-sway
+
+# font
+font Victor Mono 10
+
+# focused window
+client.focused $color1 $color1 $foreground $color13
+client.focused_inactive $color8 $color8 $foreground
+
+# unfocused window
+client.unfocused $background $background $foreground
+
+# Set the wallpaper (automatically with wpgtk)
+output * bg $wallpaper fill
+#+END_SRC
+
+** GTK+
+
+#+BEGIN_SRC conf-unix :tangle desktop/.config/gtk-3.0/settings.ini
+[Settings]
+gtk-theme-name=FlatColor
+gtk-icon-theme-name=flattrcolor
+gtk-font-name=Victor Mono 10
+gtk-cursor-theme-size=24
+gtk-toolbar-style=GTK_TOOLBAR_BOTH_HORIZ
+gtk-toolbar-icon-size=GTK_ICON_SIZE_LARGE_TOOLBAR
+gtk-button-images=0
+gtk-menu-images=0
+gtk-enable-event-sounds=1
+gtk-enable-input-feedback-sounds=0
+gtk-xft-antialias=1
+gtk-xft-hinting=1
+gtk-xft-hintstyle=hintslight
+gtk-cursor-theme-name=Adwaita
+gtk-xft-rgba=rgb
+gtk-application-prefer-dark-theme=0
+#+END_SRC
+
+#+BEGIN_SRC css :tangle desktop/.config/gtk-3.0/gtk.css
+\* {
+  text-shadow: none;
+}
+
+/* remove window title from Client-Side Decorations */
+.solid-csd headerbar .title {
+    font-size: 0;
+}
+
+/* hide extra window decorations/double border */
+window decoration {
+    margin: 0;
+    border: none;
+    padding: 0;
+}
 #+END_SRC

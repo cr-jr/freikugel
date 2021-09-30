@@ -1,0 +1,8 @@
+# Autostart programs
+exec dex -a
+
+# Necessary to properly apply GTK2/GTK+ themes under wayland
+exec_always scripts/import-gsettings
+
+# Reload last theme with wpgtk
+exec ~/.config/wpg/wp_init.sh

@@ -1,0 +1,15 @@
+# Import theme colors
+include ~/.cache/wal/colors-sway
+
+# font
+font Victor Mono 10
+
+# focused window
+client.focused $color1 $color1 $foreground $color13
+client.focused_inactive $color8 $color8 $foreground
+
+# unfocused window
+client.unfocused $background $background $foreground
+
+# Set the wallpaper (automatically with wpgtk)
+output * bg $wallpaper fill

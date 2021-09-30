@@ -1,0 +1,2 @@
+# Config is ordered by module and zero-indexed
+include ~/.config/sway/config.d/*

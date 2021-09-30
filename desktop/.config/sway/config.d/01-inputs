@@ -1,0 +1,4 @@
+# Map Caps Lock to CTRL
+input "type:keyboard" {
+      xkb_options ctrl:nocaps
+}

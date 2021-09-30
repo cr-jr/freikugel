@@ -1,0 +1,46 @@
+# Mod keys
+set $mod Mod4
+set $mode_prefix Mod1+space
+
+# Directional keys (custom)
+set $up i
+set $right l
+set $down k
+set $left j
+
+# Terminal
+set $term kitty
+
+# Launcher
+set $appmenu wofi --show drun | xargs swaymsg exec --
+set $execmenu wofi --show run | xargs swaymsg exec --
+
+# Workspaces
+set $ws1 1
+set $ws2 2
+set $ws3 3
+set $ws4 4
+set $ws5 5
+set $ws6 6
+set $ws7 7
+set $ws8 8
+set $ws9 9
+set $ws10 $10
+
+# Outputs
+set $laptop LVDS-1
+set $monitor HDMI-A-1
+
+# Main applications
+set $browser qutebrowser
+set $editor emacs
+set $files nautilus
+set $messenger signal-desktop
+set $music nuclear
+set $theming wpg
+set $video mpv
+set $virt virt-manager
+
+# Mode prompts
+set $open "open: (q)uit (b)rowser, (e)ditor, (f)iles, (m)essenger, (M)usic, (t)heming, (v)ideo, (V)irt"
+set $audio "audio: (q)uit (j) -, (l) +, (k) mute"
