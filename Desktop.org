@@ -453,7 +453,7 @@ go because it's simple to configure and works with my theme manager.
         "tooltip-format-disconnected": "MPD (disconnected)"
     },
     "tray": {
-        // "icon-size": 21,
+        "icon-size": 24,
         "spacing": 10
     },
     "clock": {
@@ -484,7 +484,7 @@ go because it's simple to configure and works with my theme manager.
             "default": ["", "", ""]
         },
         "on-click": "pavucontrol"
-    },
+    }
 }
 #+END_SRC
 
