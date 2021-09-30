@@ -106,7 +106,7 @@ mode "resize" {
 bindsym $mode_prefix+r mode "resize"
 
 # App quick launch
-mode "$open" {
+mode $open {
      bindsym b exec $browser
      bindsym e exec $editor
      bindsym f exec $files
@@ -117,13 +117,13 @@ mode "$open" {
      bindsym Shift+v $virt
      bindsym q mode "default"
 }
-bindsym $mode_prefix+l mode "$open"
+bindsym $mode_prefix+l mode $open
 
 # Controlling volume from the home row
-mode "$audio" {
+mode $audio {
      bindsym $left exec pactl set-sink-volume @DEFAULT_SINK@ -4db
      bindsym $right exec pactl set-sink-volume @DEFAULT_SINK@ +4db
      bindsym $down exec pactl set-sink-mute @DEFAULT_SINK@ toggle
      bindsym q mode "default"
 }
-bindsym $mode_prefix+a mode "$audio"
+bindsym $mode_prefix+a mode $audio
