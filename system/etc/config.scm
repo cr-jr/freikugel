@@ -59,25 +59,25 @@
   (host-name "freikugel")
   (timezone "America/New_York")
   (locale "en_US.utf8")
-  (keyboard-layout (keyboard-layout "us" "intl"))
+  (keyboard-layout (keyboard-layout "us"))
 
   ;; Next, define my devices and their mount points. I configured my system
   ;; with distinct "BOOT", "ROOT", and "HOME" partitions. Referred to by
   ;; their explicit UUIDs.
-  (file-systems (append
-                 (list (file-system
-       (device (uuid "F949-2F26" 'fat))
-       (mount-point "/boot/efi")
-       (type "vfat"))
-           (file-system
-       (device (uuid "d66d6de0-4968-4bdd-9aea-18525c06dad6"))
-       (mount-point "/")
-       (type "ext4"))
-           (file-system
-       (device (uuid "29eca1a4-84b3-47f8-b9d7-088e2f963f94"))
-       (mount-point "/home")
-       (type "ext4")))
-                 %base-file-systems))
+  (file-systems (append (list
+       (file-system
+         (device (uuid "F949-2F26" 'fat))
+         (mount-point "/boot/efi")
+         (type "vfat"))
+       (file-system
+         (device (uuid "d66d6de0-4968-4bdd-9aea-18525c06dad6"))
+         (mount-point "/")
+         (type "ext4"))
+       (file-system
+         (device (uuid "29eca1a4-84b3-47f8-b9d7-088e2f963f94"))
+         (mount-point "/home")
+         (type "ext4")))
+      %base-file-systems))
 
   ;; My system also defines a partition used for swap space, labeled "SWAP".
   (swap-devices (list (uuid "55f2d49f-f4e9-4b8b-bef1-6634c2404937")))
