@@ -5,8 +5,10 @@
 - [[#summary][Summary]]
 - [[#installation][Installation]]
 - [[#apps][Apps]]
-  - [[#terminal][Terminal]]
-  - [[#editor][Editor]]
+  - [[#terminals][Terminals]]
+    - [[#kitty][kitty]]
+  - [[#editors][Editors]]
+    - [[#emacs][emacs]]
   - [[#music][Music]]
     - [[#mpd][mpd]]
   - [[#video][Video]]
@@ -25,7 +27,9 @@ stow -d /path/to/freikugel -t $HOME apps
 
 * Apps
 
-** Terminal
+** Terminals
+
+*** kitty
 
 #+BEGIN_SRC conf-unix :tangle apps/.config/kitty/kitty.conf
 # Setup fonts
@@ -41,8 +45,9 @@ background_opacity 0.9
 allow_remote_control yes
 #+END_SRC
 
+** Editors
 
-** Editor
+*** emacs
 
 My Emacs configuration is [[https://github.com/cr-jr/C4][pulled from its own repo]].
 
