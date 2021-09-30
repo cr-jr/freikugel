@@ -39,7 +39,9 @@ wpg -A (wpg -c); and wpg -s (wpg -c)
 # Install default GTK theme and icon templates, reapply
 wpg-install.sh -gi; wpg -s (wpg -c)
 
-# Check the theme in my TTY, add this line to config.fish
+# Check the theme in my TTY
 bass source $HOME/.cache/wal/colors-tty.sh; and wpg --preview
 
+# Append to config.fish when satisfied
+echo "bass source $HOME/.cache/wal/colors-tty.sh # apply theme to TTY" >> $HOME/.config/fish/config.fish
 #+END_SRC
