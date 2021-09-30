@@ -1,0 +1,60 @@
+/* Import colors  */
+@import url("/home/cr-jr/.cache/wal/colors-waybar.css");
+
+/* Bar base */
+
+window * {
+  font-family: Victor Mono, sans-serif;
+  font-size: 0.75rem;
+}
+
+window.e-DP1 * {
+  font-size: 0.5rem;
+}
+
+window#waybar,
+tooltip {
+  background: @background;
+  color: @foreground;
+  opacity: 0.8;
+}
+
+window#waybar {
+  border-bottom: 0.5ex solid @color1;
+}
+
+.modules-left {
+  padding-right: 2ex;
+}
+
+.modules-right *, #workspaces button.focused, #window, #tray {
+  padding: 2ex;
+}
+
+/* Modules */
+
+#workspaces button.focused,
+#window {
+  font-weight: 900;
+  opacity: 1;
+}
+
+#window, #tray {
+  background: @color1;
+}
+
+#workspaces button {
+  background: transparent;
+}
+
+#workspaces button.focused {
+  background: @color2;
+}
+
+#clock {
+  padding-right: 2ex;
+}
+
+#tray * {
+  padding: 0 0.3ex;
+}

@@ -8,13 +8,16 @@
 - [[#window-manager][Window Manager]]
   - [[#settings][Settings]]
   - [[#inputs][Inputs]]
-  - [[#keybindings][keybindings]]
+  - [[#keybindings][Keybindings]]
   - [[#startup][Startup]]
     - [[#1-create-desktop-entries-for-autostarted-programs][1. Create desktop entries for autostarted programs]]
     - [[#2-configure-autostart-behavior][2. Configure autostart behavior]]
   - [[#ui][UI]]
   - [[#theme][Theme]]
   - [[#gtk][GTK+]]
+- [[#status-bar][Status Bar]]
+  - [[#modules][Modules]]
+  - [[#theme-1][Theme]]
 
 * Summary
 
@@ -129,7 +132,7 @@ input "type:keyboard" {
 }
 #+END_SRC
 
-** keybindings
+** Keybindings
 
 #+BEGIN_SRC conf :tangle desktop/.config/sway/config.d/02-keybindings
  # Start a terminal
@@ -377,7 +380,7 @@ gtk-application-prefer-dark-theme=0
 #+END_SRC
 
 #+BEGIN_SRC css :tangle desktop/.config/gtk-3.0/gtk.css
-\* {
+window * {
   text-shadow: none;
 }
 
@@ -391,5 +394,156 @@ window decoration {
     margin: 0;
     border: none;
     padding: 0;
+}
+#+END_SRC
+
+* Status Bar
+
+My desktop environment uses a somewhat spartan status bar configuration. Waybar was the, um, way to
+go because it's simple to configure and works with my theme manager.
+
+** Modules
+
+#+BEGIN_SRC json :tangle desktop/.config/waybar/config
+{
+    "modules-left": ["sway/window", "sway/workspaces", "sway/mode"],
+    "modules-center": [],
+    "modules-right": ["mpd", "pulseaudio", "network", "clock", "tray"],
+    "keyboard-state": {
+        "numlock": true,
+        "capslock": true,
+        "format": "{name} {icon}",
+        "format-icons": {
+            "locked": "",
+            "unlocked": ""
+        }
+    },
+    "sway/mode": {
+        "format": "<span style=\"italic\">{}</span>"
+    },
+    "mpd": {
+        "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ",
+        "format-disconnected": "Disconnected ",
+        "format-stopped": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ",
+        "unknown-tag": "N/A",
+        "interval": 2,
+        "consume-icons": {
+            "on": " "
+        },
+        "random-icons": {
+            "off": "<span color=\"#f53c3c\"></span> ",
+            "on": " "
+        },
+        "repeat-icons": {
+            "on": " "
+        },
+        "single-icons": {
+            "on": "1 "
+        },
+        "state-icons": {
+            "paused": "",
+            "playing": ""
+        },
+        "tooltip-format": "MPD (connected)",
+        "tooltip-format-disconnected": "MPD (disconnected)"
+    },
+    "tray": {
+        // "icon-size": 21,
+        "spacing": 10
+    },
+    "clock": {
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "format-alt": "{:%Y-%m-%d}"
+    },
+    "network": {
+        "format-wifi": "{essid} ({signalStrength}%) ",
+        "format-ethernet": "{ifname}: {ipaddr}/{cidr} ",
+        "format-linked": "{ifname} (No IP) ",
+        "format-disconnected": "Disconnected ⚠",
+        "format-alt": "{ifname}: {ipaddr}/{cidr}"
+    },
+    "pulseaudio": {
+        "format": "{volume}% {icon} {format_source}",
+        "format-bluetooth": "{volume}% {icon} {format_source}",
+        "format-bluetooth-muted": " {icon} {format_source}",
+        "format-muted": " {format_source}",
+        "format-source": "{volume}% ",
+        "format-source-muted": "",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+        "on-click": "pavucontrol"
+    },
+}
+#+END_SRC
+
+** Theme
+
+#+BEGIN_SRC css :tangle desktop/.config/waybar/style.css
+/* Import colors  */
+@import url("/home/cr-jr/.cache/wal/colors-waybar.css");
+
+/* Bar base */
+
+window * {
+  font-family: Victor Mono, sans-serif;
+  font-size: 0.75rem;
+}
+
+window.e-DP1 * {
+  font-size: 0.5rem;
+}
+
+window#waybar,
+tooltip {
+  background: @background;
+  color: @foreground;
+  opacity: 0.8;
+}
+
+window#waybar {
+  border-bottom: 0.5ex solid @color1;
+}
+
+.modules-left {
+  padding-right: 2ex;
+}
+
+.modules-right *, #workspaces button.focused, #window, #tray {
+  padding: 2ex;
+}
+
+/* Modules */
+
+#workspaces button.focused,
+#window {
+  font-weight: 900;
+  opacity: 1;
+}
+
+#window, #tray {
+  background: @color1;
+}
+
+#workspaces button {
+  background: transparent;
+}
+
+#workspaces button.focused {
+  background: @color2;
+}
+
+#clock {
+  padding-right: 2ex;
+}
+
+#tray * {
+  padding: 0 0.3ex;
 }
 #+END_SRC
