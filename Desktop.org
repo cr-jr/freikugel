@@ -1,6 +1,12 @@
 #+TITLE: Desktop Environment (Sway)
 #+PROPERTY: header-args :mkdirp yes
 
+* Table of Contents :TOC@4:
+- [[#summary][Summary]]
+- [[#installation][Installation]]
+- [[#setup][Setup]]
+  - [[#theming][Theming]]
+
 * Summary
 
 This document contains the configuration of my desktop environment as well as instructions for
