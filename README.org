@@ -2,22 +2,39 @@
 
 * Summary
 
-This repository contains configuration files for my daily work machine. My system uses GNU Guix with dotfiles managed by GNU Stow. It's always up to date and synced with the host machine, so it's really handy for reproducing the last
-working state of my system in an emergency.
+This repository contains configuration files for my daily work machine. My system uses GNU Guix with
+dotfiles managed by GNU Stow. It's always up to date and synced with the host machine.
 
-My kit is lightweight because I'm using a relatively old laptop (7 years) and I prefer an uncluttered workflow.
+* Modules
 
-* Structure
++ System.org: defines the system foundation and packages needed to get it running
++ Env.org: defines the configuration and packages needed to replicate my shell environment
++ Desktop.org: defines the configuration and packages needed replicate my desktop environment
++ Apps.org: defines configuration for my daily programs (Emacs, MPV, etc...)
 
-The reconstruction of my system is a multi-step process documented and generated from Org files as follows:
+* Goals
 
-+ System.org: defines the system configuration and packages required just to get it up and running
-+ Env.org: defines the configuration needed to replicate my home and dev environment
-+ Desktop.org: defines the configuration needed to get my desktop environment situated the way I like it
-+ Apps.org: defines configuration needed for miscellaneous apps (MPD, MPV, etc...)
+** Primary
 
-** Rationale
++ Self-referential: it should reflect the actual state of the live machine and vice-versa
++ Reproducible: it should be possible to replicate the entire system on a fresh machine
++ Automated: system setup should be scriptable and require very little human effort
++ Portable: in the event of hardware failure, the system should be usable on other machines
 
-I wanted the parts of my system to be organized into layers that I can add or remove from without affecting the state of the others. The exception is System.org as the other layers are built on its foundation.
+** Secondary
 
-It's a crude organization at the moment, but it will do until I understand more about Guix profiles and manifests.
++ Composable: modules should be independent yet "talk" to each other
++ PEBKAC-resistant: it should be easily recoverable if I bork something on the live machine
++ Adaptive: it should be painless to change and create system modules
++ Personal: this is /my/ system, after all
+
+* Fork at Your Own Risk
+
+Be aware that this repo deliberately has no license. It's nowhere near the state I'd feel
+comfortable with you taking it for a spin on your own machine or using it as a base for your own
+system configuration.
+
+For one, it's poorly documented and won't help anyone unfamilar with the tools I'm using. It's also
+missing some vital steps in the system setup. The repo is public at this stage solely for quick access.
+
+I'll remove this section and add a license if it's ever stable and secure enough for other people.
