@@ -7,3 +7,4 @@ bass source /run/current-system/profile/etc/profile.d/nix.sh
 
 # Launch the starship
 starship init fish | source
+bass source /home/cr-jr/.cache/wal/colors-tty.sh # apply theme to TTY
