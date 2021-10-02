@@ -4,7 +4,6 @@
 * Table of Contents :TOC@4:
 - [[#summary][Summary]]
 - [[#installation][Installation]]
-- [[#setup][Setup]]
 - [[#window-manager][Window Manager]]
   - [[#settings][Settings]]
   - [[#inputs][Inputs]]
@@ -29,38 +28,6 @@ setting it up.
 
 #+BEGIN_SRC shell
 stow -d /path/to/freikugel -t $HOME desktop
-#+END_SRC
-
-* Setup
-
-First, I need to grab my desktop theme manager and download a wallpaper to generate my colors from. The
-other parts of my environment use these generated palettes.
-
-#+BEGIN_SRC shell
-# Download pywal, wpgtk, imagemagick, and colorz backend
-# python2 is needed for GTK2 reload and feh for setting the wallpaper
-nix-env -iA \
-  nixpkgs.python2Full nixpkgs.imagemagick nixpkgs.feh \
-  nixpkgs.pywal nixpkgs.colorz nixpkgs.wpgtk
-
-# Download wallpaper
-set -x WALLPAPER_DIR "$HOME/Pictures/Wallpapers"
-mkdir -p $WALLPAPER_DIR
-curl -o $WALLPAPER_DIR/liftoff.jpg \
-     https://curatedwallpapers.com/wp-content/uploads/Lift-Off-space-minimalism-rocket-technology-future-scaled.jpg
-
-# Set palette, auto-adjust for contrast, reapply
-wpg --backend colorz --alpha 90 -a $WALLPAPER_DIR/liftoff.jpg; and wpg -s liftoff.jpg
-wpg -A (wpg -c); and wpg -s (wpg -c)
-
-# Install default GTK theme and icon templates, reapply
-wpg-install.sh -gi; wpg -s (wpg -c)
-
-# Check the theme in my TTY
-bass source $HOME/.cache/wal/colors-tty.sh; and wpg --preview
-
-# Append to config.fish when satisfied
-echo "bass source $HOME/.cache/wal/colors-tty.sh # apply theme to TTY" >> $HOME/.config/fish/config.fish
 #+END_SRC
 
 * Window Manager

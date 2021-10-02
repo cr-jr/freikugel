@@ -10,3 +10,6 @@ starship init fish | source
 
 # Activate ssh agent
 fish_ssh_agent
+
+# Autoload TTY theme on login
+bass source $HOME/.cache/wal/colors-tty.sh
