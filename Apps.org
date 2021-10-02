@@ -33,7 +33,7 @@ stow -d /path/to/freikugel -t $HOME apps
 
 #+BEGIN_SRC conf-unix :tangle apps/.config/kitty/kitty.conf
 # Setup fonts
-font_family Input Mono
+font_family Victor Mono
 font_size 10.0
 
 # Colors
