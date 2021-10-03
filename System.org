@@ -239,33 +239,19 @@ reboot
  (nongnu packages linux) (nongnu system linux-initrd))
 
 (use-service-modules
- admin pm desktop sddm xorg virtualization file-sharing syncthing ssh docker
- nix)
+ admin pm desktop sddm xorg virtualization file-sharing syncthing ssh
+ docker nix)
 
 (use-package-modules
  curl wget file-systems linux gnome audio freedesktop emacs terminals
  virtualization admin bittorrent python python-xyz mpd graphics qt gtk kde
  cmake xdisorg fonts video web-browsers inkscape scribus pdf terminals
- bootloaders certs wm xorg package-management version-control shells)
+ image bootloaders certs wm xorg package-management
+ version-control shells)
 
 (operating-system
-  ;; First, load up the main linux kernel instead of linux-libre. As
-  ;; nonguix doesn't provide binaries, the kernel will recompile every
-  ;; system update unless it's pinned to commits on both channels.
-  (kernel (let* ((channels
-      (list
-       (channel
-        (name 'nonguix)
-        (url "https://gitlab.com/nonguix/nonguix")
-        (commit "c93654cc7f99e15d5c1252d98e0bbf14e79e7de9"))
-       (channel
-        (name 'guix)
-        (url "https://git.savannah.gnu.org/git/guix.git")
-        (commit "e4ed0b3969ddbe44347c468c96ccfa057b2dd256"))))
-     (inferior
-      (inferior-for-channels channels)))
-      (first (lookup-inferior-packages inferior "linux" "5.14.3"))))
-
+  ;; First, load up the main linux kernel instead of linux-libre.
+  (kernel linux)
   ;; Next, load microcode and firmware.
   (initrd microcode-initrd)
   (firmware (list linux-firmware))
@@ -283,21 +269,21 @@ reboot
    (append
     (list
      (file-system
-       (device (uuid "F949-2F26" 'fat))
+       (device (uuid "FE80-BF31" 'fat))
        (mount-point "/boot/efi")
        (type "vfat"))
      (file-system
-       (device (uuid "d66d6de0-4968-4bdd-9aea-18525c06dad6"))
+       (device (uuid "4459083c-f870-400f-9d4f-49331356f7d3"))
        (mount-point "/")
        (type "ext4"))
      (file-system
-       (device (uuid "29eca1a4-84b3-47f8-b9d7-088e2f963f94"))
+       (device (uuid "35283795-76c0-415c-8083-d9de4c69ea62"))
        (mount-point "/home")
        (type "ext4")))
     %base-file-systems))
 
   ;; My system also defines a partition used for swap space, labeled "SWAP".
-  (swap-devices (list (uuid "55f2d49f-f4e9-4b8b-bef1-6634c2404937")))
+  (swap-devices (list (uuid "7cf9340f-fabb-4307-8b43-a323c6590b01")))
 
   ;; Finally, to ensure a proper boot, my system uses the GRUB bootloader.
   ;; Note: my system is also UEFI, so it's configured accordingly. I may get
@@ -365,8 +351,8 @@ reboot
      fish kitty bpytop transmission singularity python mpd-mpc ncmpcpp cmake libvterm
      ;; desktop
      sway swaybg swaylock swayidle mako waybar kanshi egl-wayland qtwayland wl-clipboard
-     python-pywal pipewire wofi dex xsettingsd (list gtk+ "bin") mpd ; gtk+:bin needed for gsettings
-     font-google-noto font-victor-mono font-awesome
+     python-pywal pipewire wofi dex xsettingsd (list gtk+ "bin") mpd ; gsettings: gtk+:bin
+     grim slurp font-google-noto font-victor-mono font-awesome
      ;; apps
      mpv qutebrowser virt-manager nautilus krita inkscape scribus
      zathura zathura-pdf-mupdf zathura-djvu zathura-cb zathura-ps
