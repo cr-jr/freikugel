@@ -98,7 +98,7 @@ guix system image --image-size=800MiB /path/to/freikugel/system/install.scm
 
 Where =install.scm= contains:
 
-#+BEGIN_SRC scheme :tangle system/install.scm
+#+BEGIN_SRC scheme
 ;;; Copyright © 2019 Alex Griffin <a@ajgrf.com>
 ;;; Copyright © 2019 Pierre Neidhardt <mail@ambrevar.xyz>
 ;;;
