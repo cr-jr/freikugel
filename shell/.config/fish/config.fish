@@ -1,10 +1,12 @@
-# Activate default profile
-bass source $GUIX_PROFILE/etc/profile
-
-# Activate extra profiles
-bass source $GUIX_EXTRA_PROFILES/desktop/desktop/etc/profile
-bass source $GUIX_EXTRA_PROFILES/work/work/etc/profile
-bass source $GUIX_EXTRA_PROFILES/addons/addons/etc/profile
+# Activate profiles on login, ignoring .config/guix/current
+for profile in (guix package --list-profiles)
+  if test $profile = "$HOME/.config/guix/current"
+    echo "$profile" 1> /dev/null
+  else
+    set GUIX_PROFILE $profile
+    bass source $profile/etc/profile
+  end
+end
 
 # Setup Nix profile
 bass source /run/current-system/profile/etc/profile.d/nix.sh
