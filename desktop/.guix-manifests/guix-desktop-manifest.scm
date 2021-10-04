@@ -12,6 +12,8 @@
    "font-victor-mono"
    "font-google-noto"
    "font-awesome"
+   "grim"
+   "slurp"
    "mako"
    "kitty"
    "mpd"
