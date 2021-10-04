@@ -100,8 +100,11 @@ set -Ux GUIX_PROFILE "$HOME/.guix-profile"
 guix install hello; and which hello; and hello
 
 # Setup dev, desktop, addons. Installation documented in their respective modules
-set -Ux GUIX_EXTRA_PROFILES "$HOME/.guix-extra-profiles
+set -Ux GUIX_EXTRA_PROFILES "$HOME/.guix-extra-profiles"
 mkdir -p $GUIX_EXTRA_PROFILES/{dev,desktop,addons}
+
+# Set an environment variable to refer to package manifests (once generated)
+set -Ux $GUIX_MANIFESTS "$HOME/.guix-manifests"
 #+END_SRC
 
 *** 2. Activate profiles
