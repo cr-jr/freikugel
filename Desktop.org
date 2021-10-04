@@ -4,13 +4,15 @@
 * Table of Contents :TOC@4:
 - [[#summary][Summary]]
 - [[#installation][Installation]]
+  - [[#1-copy-configuration-to-host-machine][1. Copy configuration to host machine]]
+  - [[#2-install-packages-from-manifest][2. Install packages from manifest]]
 - [[#window-manager][Window Manager]]
   - [[#settings][Settings]]
   - [[#inputs][Inputs]]
   - [[#keybindings][Keybindings]]
   - [[#startup][Startup]]
     - [[#1-create-desktop-entries-for-autostarted-programs][1. Create desktop entries for autostarted programs]]
-    - [[#2-configure-autostart-behavior][2. Configure autostart behavior]]
+    - [[#2-configure-startup-behavior][2. Configure startup behavior]]
   - [[#ui][UI]]
   - [[#theme][Theme]]
   - [[#gtk][GTK+]]
@@ -26,8 +28,48 @@ setting it up.
 
 * Installation
 
+** 1. Copy configuration to host machine
+
+#+BEGIN_SRC
+
 #+BEGIN_SRC shell
 stow -d /path/to/freikugel -t $HOME desktop
+#+END_SRC
+
+** 2. Install packages from manifest
+
+#+BEGIN_SRC shell
+guix package \
+     --manifest=$GUIX_MANIFESTS/guix-desktop-manifest.scm --profile=$GUIX_EXTRA_PROFILES/desktop/desktop
+#+END_SRC
+
+Where =guix-desktop-manifest.scm= is:
+
+#+BEGIN_SRC scheme :tangle desktop/.guix-manifests/guix-desktop-manifest.scm
+;; This manifest contains the guix packages needed for my desktop
+;; environment to function.
+
+(specifications->manifest
+ '("glib:bin" ;; needed for gsettings command
+   "gsettings-desktop-schemas"
+   "qtwayland"
+   "egl-wayland"
+   "gnome-themes-standard"
+   "gnome-themes-extra"
+   "adwaita-icon-theme"
+   "font-victor-mono"
+   "font-google-noto"
+   "font-awesome"
+   "mako"
+   "kitty"
+   "mpd"
+   "mpd-mpc"
+   "pipewire@0.3"
+   "kanshi"
+   "dex"
+   "wl-clipboard"
+   "waybar"
+   "wofi"))
 #+END_SRC
 
 * Window Manager
@@ -79,7 +121,7 @@ set $monitor HDMI-A-1
 # Main applications
 set $browser qutebrowser
 set $editor emacs
-set $files nautilus
+set $files pcmanfm
 set $video mpv
 set $virt virt-manager
 
@@ -233,11 +275,12 @@ bindsym $mode_prefix+a mode $audio
 *** 1. Create desktop entries for autostarted programs
 
 #+BEGIN_SRC shell
-mkdir -p $HOME/.config/autostart
-dex -t $HOME/.config/autostart -c /paths /to /programs
+set -Ux AUTOSTART_DIR "$HOME/.config/autostart"
+mkdir -p $AUTOSTART_DIR
+dex -t $AUTOSTART_DIR -c /paths /to /programs
 #+END_SRC
 
-*** 2. Configure autostart behavior
+*** 2. Configure startup behavior
 
 #+BEGIN_SRC conf :tangle desktop/.config/sway/config.d/03-startup
 # Autostart programs
