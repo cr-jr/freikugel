@@ -2,8 +2,8 @@
 bass source $GUIX_PROFILE/etc/profile
 
 # Activate extra profiles
-bass source $GUIX_EXTRA_PROFILES/dev/dev/etc/profile
 bass source $GUIX_EXTRA_PROFILES/desktop/desktop/etc/profile
+bass source $GUIX_EXTRA_PROFILES/work/work/etc/profile
 bass source $GUIX_EXTRA_PROFILES/addons/addons/etc/profile
 
 # Setup Nix profile

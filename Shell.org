@@ -48,6 +48,7 @@ plugins are installed.
 
 #+BEGIN_SRC shell
 stow -d $SYSCONFIG -t $HOME shell
+#+END_SRC
 
 * Plugins
 
@@ -99,9 +100,9 @@ fisher install edc/bass
 set -Ux GUIX_PROFILE "$HOME/.guix-profile"
 guix install hello; and which hello; and hello
 
-# Setup dev, desktop, addons. Installation documented in their respective modules
+# Setup desktop, work, addons. Installation documented in their respective modules
 set -Ux GUIX_EXTRA_PROFILES "$HOME/.guix-extra-profiles"
-mkdir -p $GUIX_EXTRA_PROFILES/{dev,desktop,addons}
+mkdir -p $GUIX_EXTRA_PROFILES/{desktop,work,addons}
 
 # Set an environment variable to refer to package manifests (once generated)
 set -Ux $GUIX_MANIFESTS "$HOME/.guix-manifests"
@@ -114,8 +115,8 @@ set -Ux $GUIX_MANIFESTS "$HOME/.guix-manifests"
 bass source $GUIX_PROFILE/etc/profile
 
 # Activate extra profiles
-bass source $GUIX_EXTRA_PROFILES/dev/dev/etc/profile
 bass source $GUIX_EXTRA_PROFILES/desktop/desktop/etc/profile
+bass source $GUIX_EXTRA_PROFILES/work/work/etc/profile
 bass source $GUIX_EXTRA_PROFILES/addons/addons/etc/profile
 #+END_SRC
 
