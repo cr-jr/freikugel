@@ -4,6 +4,8 @@
 * Table of Contents :TOC@4:
 - [[#summary][Summary]]
 - [[#installation][Installation]]
+  - [[#1-copy-configurations-to-host-machine][1. Copy configurations to host machine]]
+  - [[#2-install-packages-from-manifest][2. Install packages from manifest]]
 - [[#apps][Apps]]
   - [[#terminals][Terminals]]
     - [[#kitty][kitty]]
@@ -16,13 +18,41 @@
 
 * Summary
 
-This document contains the configuration for my most used apps. It sits independent of the system, but requires the desktop environment to be functional. After installing this
-layer, the only thing that remains is my sensitive information and personal files.
+This document contains the configuration for my most used apps. It sits independent of the system,
+but requires the desktop environment to be functional. After installing this layer, the only thing
+that remains is my sensitive information and personal files.
 
 * Installation
 
+** 1. Copy configurations to host machine
+
 #+BEGIN_SRC shell
-stow -d /path/to/freikugel -t $HOME apps
+stow -d $SYSCONFIG -t $HOME addons
+#+END_SRC
+
+** 2. Install packages from manifest
+
+#+BEGIN_SRC shell
+guix package \
+     --manifest=$GUIX_MANIFESTS/guix-addons-manifest.scm --profile=$GUIX_EXTRA_PROFILES/addons/addons
+#+END_SRC
+
+Where =guix-addons-manifest.scm= contains:
+
+#+BEGIN_SRC scheme :tangle addons/.guix-manifests/guix-addons-manifest.scm
+;; This manifest contains Guix packages for my daily apps.
+
+(specifications->manifest
+  '("qutebrowser"
+    "mpv"
+    "virt-manager"
+    "pcmanfm"
+    "syncthing-gtk"
+    "picard"
+    "krita"
+    "inkscape"
+    "scribus"
+    "sonata"))
 #+END_SRC
 
 * Apps
@@ -62,7 +92,7 @@ emacs --script $EMACS_DIR/init.el
 
 *** mpd
 
-#+BEGIN_SRC conf :tangle apps/.config/mpd/mpd.conf
+#+BEGIN_SRC conf :tangle addons/.config/mpd/mpd.conf
 music_directory		"~/Music"
 
 audio_output {
@@ -75,7 +105,7 @@ audio_output {
 
 *** mpv
 
-#+BEGIN_SRC conf :tangle apps/.config/mpv/mpv.conf
+#+BEGIN_SRC conf :tangle addons/.config/mpv/mpv.conf
 # Wayland
 gpu-context=wayland
 
