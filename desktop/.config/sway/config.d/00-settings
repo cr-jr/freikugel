@@ -34,7 +34,7 @@ set $monitor HDMI-A-1
 # Main applications
 set $browser qutebrowser
 set $editor emacs
-set $files nautilus
+set $files pcmanfm
 set $video mpv
 set $virt virt-manager
 
