@@ -1,0 +1,65 @@
+#+TITLE: Work Environment
+#+PROPERTY: header-args :mkdirp yes
+
+* Table of Contents :TOC@4:
+- [[#summary][Summary]]
+- [[#installation][Installation]]
+  - [[#1-copy-configuration-to-host-machine][1. Copy configuration to host machine]]
+  - [[#2-install-packages-from-manifest][2. Install packages from manifest]]
+  - [[#3-grab-some-js-specific-utilities][3. Grab some JS-specific utilities]]
+  - [[#4-install-missing-tools-from-nix][4. Install missing tools from Nix]]
+  - [[#5-setup-emacs][5. Setup Emacs]]
+
+* Summary
+
+This document walks through the process of setting up the host machine for programming and software
+development. Emacs is the fulcrum of my entire workflow, so much of the setup is simply getting my
+tools onto the machine and letting [[https://github.com/cr-jr/C4][my Emacs configuration]] do the rest.
+
+* Installation
+
+** 1. Copy configuration to host machine
+
+#+BEGIN_SRC shell
+stow -d $SYSCONFIG -t $HOME work
+#+END_SRC
+
+** 2. Install packages from manifest
+
+#+BEGIN_SRC shell
+guix package \
+     --manifest=$GUIX_MANIFESTS/guix-work-manifest.scm --profile=$GUIX_EXTRA_PROFILES/work/work
+#+END_SRC
+
+Where =guix-work-manifest.scm= contains:
+
+#+BEGIN_SRC scheme :tangle work/.guix-manifests/guix-work-manifest.scm
+;; This manifest contains Guix packages for my workflow.
+
+(specifications->manifest
+ '("emacs"
+   "node@14"
+   "guile"
+   "racket"
+   "sbcl"))
+#+END_SRC
+
+** 3. Grab some JS-specific utilities
+
+#+BEGIN_SRC shell
+npm i -g yarn prettier stylelint
+#+END_SRC
+
+** 4. Install missing tools from Nix
+
+#+BEGIN_SRC shell
+nix-env -iA nixpkgs.deno
+#+END_SRC
+
+** 5. Setup Emacs
+
+#+BEGIN_SRC shell
+set -Ux EMACSD "$HOME/.config/emacs"
+git clone https://github.com/cr-jr/C4.git $EMACSD
+emacs --script $EMACSD/init.el
+#+END_SRC
