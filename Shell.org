@@ -3,6 +3,7 @@
 
 * Table of Contents :TOC@4:
 - [[#summary][Summary]]
+- [[#installation][Installation]]
 - [[#plugins][Plugins]]
   - [[#z][z]]
   - [[#fishtape][fishtape]]
@@ -42,6 +43,11 @@ The system defined in System.org *must be installed* for any of the below config
 After my system installation, but before setting up my desktop environment, I need to set up my
 shell environment. This means ensuring that my shell finds my Guix/Nix profiles and the required
 plugins are installed.
+
+* Installation
+
+#+BEGIN_SRC shell
+stow -d $SYSCONFIG -t $HOME shell
 
 * Plugins
 
