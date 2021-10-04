@@ -2,15 +2,21 @@
 
 * Summary
 
-This repository contains configuration files for my daily work machine. My system uses GNU Guix with
-dotfiles managed by GNU Stow. It's always up to date and synced with the host machine.
+This repository contains the configuration of my daily work machine. My system is GNU Guix managed
+with Org mode generated dotfiles synced through GNU Stow. It always reflects the last committed
+state of the host machine.
 
 * Modules
 
-+ System.org: defines the system foundation and packages needed to get it running
-+ Env.org: defines the configuration and packages needed to replicate my shell environment
+#+BEGIN_QUOTE
+Bold modules are setup requirements. The remaining modules will  /not/ work without them.
+#+END_QUOTE
+
++ *System.org*: defines the system foundation and packages needed to get it running
++ *Shell.org*: defines the process needed to set up my shell environment and Guix/Nix profiles
 + Desktop.org: defines the configuration and packages needed replicate my desktop environment
-+ Apps.org: defines configuration for my daily programs (Emacs, MPV, etc...)
++ Work.org: defines the configuration and packages needed to replicate my work environment
++ Addons.org: defines configuration and packages for my miscellaneous daily programs
 
 * Goals
 
