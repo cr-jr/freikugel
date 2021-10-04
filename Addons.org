@@ -7,8 +7,6 @@
   - [[#1-copy-configurations-to-host-machine][1. Copy configurations to host machine]]
   - [[#2-install-packages-from-manifest][2. Install packages from manifest]]
 - [[#apps][Apps]]
-  - [[#terminals][Terminals]]
-    - [[#kitty][kitty]]
   - [[#editors][Editors]]
     - [[#emacs][emacs]]
   - [[#music][Music]]
@@ -56,24 +54,6 @@ Where =guix-addons-manifest.scm= contains:
 #+END_SRC
 
 * Apps
-
-** Terminals
-
-*** kitty
-
-#+BEGIN_SRC conf-unix :tangle apps/.config/kitty/kitty.conf
-# Setup fonts
-font_family Victor Mono
-font_size 10.0
-
-# Colors
-
-include ~/.cache/wal/colors-kitty.conf
-background_opacity 0.9
-
-# Functionality
-allow_remote_control yes
-#+END_SRC
 
 ** Editors
 

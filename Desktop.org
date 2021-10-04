@@ -20,6 +20,7 @@
   - [[#modules][Modules]]
   - [[#theme-1][Theme]]
 - [[#multihead][Multihead]]
+- [[#terminal][Terminal]]
 
 * Summary
 
@@ -569,4 +570,20 @@ profile {
 profile {
         output HDMI-A-1 disable
 }
+#+END_SRC
+
+* Terminal
+
+#+BEGIN_SRC conf-unix :tangle desktop/.config/kitty/kitty.conf
+# Setup fonts
+font_family Victor Mono
+font_size 10.0
+
+# Colors
+
+include ~/.cache/wal/colors-kitty.conf
+background_opacity 0.9
+
+# Functionality
+allow_remote_control yes
 #+END_SRC
