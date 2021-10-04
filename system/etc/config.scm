@@ -1,7 +1,3 @@
-;; This is the system configuration for my main machine. Since it uses
-;; proprietary hardware, I need to use the nonguix channel to ensure I
-;; have the correct kernel and firmware.
-
 (use-modules
  (gnu) (gnu system nss)
  (srfi srfi-1)
@@ -13,11 +9,8 @@
  docker nix)
 
 (use-package-modules
- curl wget file-systems linux gnome audio freedesktop emacs terminals
- virtualization admin bittorrent python python-xyz mpd graphics qt gtk kde
- cmake xdisorg fonts video web-browsers inkscape scribus pdf terminals
- image bootloaders certs wm xorg package-management
- version-control shells)
+ curl wget file-systems linux gnome audio bootloaders certs wm xorg
+ package-management version-control shells freedesktop python)
 
 (operating-system
   ;; First, load up the main linux kernel instead of linux-libre.
@@ -72,10 +65,6 @@
   (services
    (cons*
     (service unattended-upgrade-service-type)
-    (service tlp-service-type
-       (tlp-configuration
-              (cpu-boost-on-ac? #t)
-              (wifi-pwr-on-bat? #t)))
     (service sddm-service-type
        (sddm-configuration
               (display-server "wayland")))
@@ -112,22 +101,8 @@
   (packages
    (append
     (list
-     ;; utilities
-     git curl wget exfat-utils fuse-exfat stow nss-certs gvfs tlp
-     bluez bluez-alsa ntfs-3g udiskie
-     ;; editors
-     emacs
-     ;; terminal
-     fish kitty bpytop transmission singularity python mpd-mpc ncmpcpp cmake libvterm
-     ;; desktop
-     sway swaybg swaylock swayidle mako waybar kanshi egl-wayland qtwayland wl-clipboard
-     python-pywal pipewire wofi dex xsettingsd (list gtk+ "bin") mpd ; gsettings: gtk+:bin
-     grim slurp font-google-noto font-victor-mono font-awesome
-     ;; apps
-     mpv qutebrowser virt-manager nautilus krita inkscape scribus
-     zathura zathura-pdf-mupdf zathura-djvu zathura-cb zathura-ps
-     ;; extra packages
-     nix)
+     git curl wget exfat-utils fuse-exfat stow nss-certs gvfs ntfs-3g
+     udiskie fish nix sway python)
     %base-packages))
 
   ;; Create my username: cr-jr
