@@ -1,15 +1,2 @@
-# Setup Guix user environment
-set GUIX_PROFILE "$HOME/.guix-profile"
-bass source $GUIX_PROFILE/etc/profile
-
-# Setup Nix user environment
-bass source /run/current-system/profile/etc/profile.d/nix.sh
-
-# Launch the starship
-starship init fish | source
-
 # Activate ssh agent
 fish_ssh_agent
-
-# Autoload TTY theme on login
-bass source $HOME/.cache/wal/colors-tty.sh

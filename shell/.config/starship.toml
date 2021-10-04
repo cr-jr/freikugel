@@ -9,7 +9,7 @@ format = '[$user]($style)@'
 
 [hostname]
 ssh_only = false
-format = '[$hostname]($style)'
+format = '[$hostname]($style) '
 
 [git_metrics]
 disabled = false

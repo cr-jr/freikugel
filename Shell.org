@@ -3,17 +3,16 @@
 
 * Table of Contents :TOC@4:
 - [[#summary][Summary]]
-- [[#installation][Installation]]
 - [[#plugins][Plugins]]
   - [[#z][z]]
   - [[#fishtape][fishtape]]
   - [[#bass][bass]]
 - [[#profile-setup][Profile Setup]]
   - [[#guix][Guix]]
-    - [[#1-install-a-dummy-package][1. Install a dummy package]]
-    - [[#2-setup-profile-paths][2. Setup profile paths]]
+    - [[#1-initialize-profiles][1. Initialize profiles]]
+    - [[#2-activate-profiles][2. Activate profiles]]
   - [[#nix][Nix]]
-    - [[#1-setup-profile][1. Setup profile]]
+    - [[#1-activate-profile][1. Activate profile]]
     - [[#2-add-package-channel][2. Add package channel]]
     - [[#3-install-a-dummy-package][3. Install a dummy package]]
 - [[#prompt][Prompt]]
@@ -22,13 +21,17 @@
   - [[#3-configure][3. Configure]]
 - [[#version-control][Version Control]]
 - [[#ssh-setup][SSH Setup]]
+  - [[#1-install-fish_ssh_agent][1. Install fish_ssh_agent]]
+    - [[#2-autostart-on-login][2. Autostart on login]]
+    - [[#3-configure-1][3. Configure]]
 - [[#theme][Theme]]
   - [[#1-install-wpgtk-and-dependencies][1. Install wpgtk and dependencies]]
   - [[#2-download-my-wallpaper][2. Download my wallpaper]]
-  - [[#3-configure-1][3. Configure]]
+  - [[#3-configure-2][3. Configure]]
 - [[#extra-packages][Extra packages]]
   - [[#directory][Directory]]
 - [[#extra-aliases][Extra aliases]]
+  - [[#terminal-clearing][Terminal clearing]]
 
 * Summary
 
@@ -37,16 +40,8 @@ The system defined in System.org *must be installed* for any of the below config
 #+END_QUOTE
 
 After my system installation, but before setting up my desktop environment, I need to set up my
-shell environment. This means ensuring that my shell is set up correctly, and all the needed
-environment variables are defined.
-
-My environment also includes my editor of choice: GNU Emacs. [[https://github.com/cr-jr/C4][I maintain a separate repo]] for that configuration.
-
-* Installation
-
-#+BEGIN_SRC shell
-stow -d /path/to/freikugel -t "$HOME" env
-#+END_SRC
+shell environment. This means ensuring that my shell finds my Guix/Nix profiles and the required
+plugins are installed.
 
 * Plugins
 
@@ -79,8 +74,9 @@ Bass does /not/ export bash variables as universal variables, so the script must
 =config.fish= for its output to carry across sessions.
 #+END_QUOTE
 
-[[https://github.com/edc/bass][Bass]] is a POSIX shell compatibility layer for fish. It allows me to use Bash utilities in fish shell without having to port the script. This plugin streamlines necessary environment configurations and variable assignments that otherwise
-expect Bash to be the primary shell.
+[[https://github.com/edc/bass][Bass]] is a POSIX shell compatibility layer for fish. It allows me to use Bash utilities in fish shell
+without having to port the script. This plugin streamlines necessary environment configurations and
+variable assignments that otherwise expect Bash to be the primary shell.
 
 #+BEGIN_SRC shell
 fisher install edc/bass
@@ -90,39 +86,49 @@ fisher install edc/bass
 
 ** Guix
 
-*** 1. Install a dummy package
+*** 1. Initialize profiles
 
 #+BEGIN_SRC shell
-guix install hello; hello
+# Setup default profile. Install a dummy package
+set -Ux GUIX_PROFILE "$HOME/.guix-profile"
+guix install hello; and which hello; and hello
+
+# Setup dev, desktop, addons. Installation documented in their respective modules
+set -Ux GUIX_EXTRA_PROFILES "$HOME/.guix-extra-profiles
+mkdir -p $GUIX_EXTRA_PROFILES/{dev,desktop,addons}
 #+END_SRC
 
-*** 2. Setup profile paths
+*** 2. Activate profiles
 
-#+BEGIN_SRC shell :tangle env/.config/fish/config.fish
-# Setup Guix user environment
-set GUIX_PROFILE "$HOME/.guix-profile"
+#+BEGIN_SRC shell :tangle shell/.config/fish/config.fish
+# Activate default profile
 bass source $GUIX_PROFILE/etc/profile
+
+# Activate extra profiles
+bass source $GUIX_EXTRA_PROFILES/dev/dev/etc/profile
+bass source $GUIX_EXTRA_PROFILES/desktop/desktop/etc/profile
+bass source $GUIX_EXTRA_PROFILES/addons/addons/etc/profile
 #+END_SRC
 
 ** Nix
 
-*** 1. Setup profile
+*** 1. Activate profile
 
-#+BEGIN_SRC shell :tangle env/.config/fish/config.fish
-# Setup Nix user environment
+#+BEGIN_SRC shell :tangle shell/.config/fish/config.fish
+# Setup Nix profile
 bass source /run/current-system/profile/etc/profile.d/nix.sh
 #+END_SRC
 
 *** 2. Add package channel
 
 #+BEGIN_SRC shell
-nix-channel --add https://nixos.org/channels/nixos-21.05 nixpkgs
+nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs
 nix-channel --update
 #+END_SRC
 
 *** 3. Install a dummy package
 #+BEGIN_SRC shell
-nix-env -i hello;
+nix-env -i hello; and which hello; and hello
 #+END_SRC
 
 * Prompt
@@ -135,14 +141,14 @@ nix-env -i starship
 
 ** 2. Initialize
 
-#+BEGIN_SRC shell :tangle env/.config/fish/config.fish
+#+BEGIN_SRC shell :tangle shell/.config/fish/config.fish
 # Launch the starship
 starship init fish | source
 #+END_SRC
 
 ** 3. Configure
 
-#+BEGIN_SRC conf-toml :tangle env/.config/starship.toml
+#+BEGIN_SRC conf-toml :tangle shell/.config/starship.toml
 add_newline = false
 
 [line_break]
@@ -154,7 +160,7 @@ format = '[$user]($style)@'
 
 [hostname]
 ssh_only = false
-format = '[$hostname]($style)'
+format = '[$hostname]($style) '
 
 [git_metrics]
 disabled = false
@@ -166,7 +172,7 @@ disabled = false
 nix-env -iA nixpkgs.diff-so-fancy
 #+END_SRC
 
-#+BEGIN_SRC conf-unix :tangle env/.gitconfig
+#+BEGIN_SRC conf-unix :tangle shell/.gitconfig
 [user]
   email = crjr.code@protonmail.com
   name = Chatman R. Jr
@@ -196,28 +202,28 @@ nix-env -iA nixpkgs.diff-so-fancy
 
 * SSH Setup
 
-1. Install [[https://github.com/ivakyb/fish_ssh_agent][fish_ssh_agent]]
+** 1. Install [[https://github.com/ivakyb/fish_ssh_agent][fish_ssh_agent]]
 
 #+BEGIN_SRC shell
 wget https://gitlab.com/kyb/fish_ssh_agent/raw/master/functions/fish_ssh_agent.fish -P ~/.config/fish/functions/
 #+END_SRC
 
-2. Autostart on login
+*** 2. Autostart on login
 
-#+BEGIN_SRC shell :tangle env/.config/fish/config.fish
+#+BEGIN_SRC shell :tangle shell/.config/fish/config.fish
 # Activate ssh agent
 fish_ssh_agent
 #+END_SRC
 
-3. Configure
+*** 3. Configure
 
-#+BEGIN_SRC conf :tangle env/.ssh/config
+#+BEGIN_SRC conf :tangle shell/.ssh/config
 AddKeysToAgent yes
 #+END_SRC
 
 * Theme
 
-The first place my theme gets applied is in the TTY, so it makes sense to define it at the environment level rather than the desktop level. My theme generates its colors from a wallpaper and uses wpgtk to apply them across my interfaces.
+The first place my theme gets applied is in the TTY, so it makes sense to define it at the shell level rather than the desktop level. My theme generates its colors from a wallpaper and uses wpgtk to apply them across my interfaces.
 
 ** 1. Install wpgtk and dependencies
 
@@ -243,7 +249,7 @@ curl -o $WALLPAPER_DIR/liftoff.jpg \
 
 #+BEGIN_SRC shell
 # Set palette, auto-adjust for contrast, reapply
-wpg --backend colorz --alpha 90 -a $WALLPAPER_DIR/liftoff.jpg; and wpg -s liftoff.jpg
+wpg --alpha 90 -a $WALLPAPER_DIR/liftoff.jpg; and wpg -s liftoff.jpg
 wpg -A (wpg -c); and wpg -s (wpg -c)
 
 # Install default GTK theme and icon templates, reapply
@@ -253,7 +259,7 @@ wpg-install.sh -gi; wpg -s (wpg -c)
 bass source $HOME/.cache/wal/colors-tty.sh; and wpg --preview
 #+END_SRC
 
-#+BEGIN_SRC shell :tangle env/.config/fish/config.fish
+#+BEGIN_SRC shell :tangle shell/.config/fish/config.fish
 # Autoload TTY theme on login
 bass source $HOME/.cache/wal/colors-tty.sh
 #+END_SRC
@@ -270,6 +276,8 @@ alias -s tree="ls --tree"
 #+END_SRC
 
 * Extra aliases
+
+** Terminal clearing
 
 #+BEGIN_SRC shell
 # terminal clearing
