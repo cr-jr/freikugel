@@ -6,9 +6,10 @@
 - [[#installation][Installation]]
   - [[#1-copy-configuration-to-host-machine][1. Copy configuration to host machine]]
   - [[#2-install-packages-from-manifest][2. Install packages from manifest]]
-  - [[#3-grab-some-js-specific-utilities][3. Grab some JS-specific utilities]]
-  - [[#4-install-missing-tools-from-nix][4. Install missing tools from Nix]]
-  - [[#5-setup-emacs][5. Setup Emacs]]
+  - [[#3-install-missing-tools-from-nix][3. Install missing tools from Nix]]
+  - [[#4-setup-emacs][4. Setup Emacs]]
+- [[#setup][Setup]]
+  - [[#node][Node]]
 
 * Summary
 
@@ -44,22 +45,37 @@ Where =guix-work-manifest.scm= contains:
    "sbcl"))
 #+END_SRC
 
-** 3. Grab some JS-specific utilities
-
-#+BEGIN_SRC shell
-npm i -g yarn prettier stylelint
-#+END_SRC
-
-** 4. Install missing tools from Nix
+** 3. Install missing tools from Nix
 
 #+BEGIN_SRC shell
 nix-env -iA nixpkgs.deno
 #+END_SRC
 
-** 5. Setup Emacs
+** 4. Setup Emacs
 
 #+BEGIN_SRC shell
 set -Ux EMACSD "$HOME/.config/emacs"
 git clone https://github.com/cr-jr/C4.git $EMACSD
 emacs --script $EMACSD/init.el
+#+END_SRC
+
+* Setup
+
+** Node
+
+What I found out is that by default the Guix npm store directory is unwritable. So I needed to set a
+custom prefix before I could install node packages.
+
+#+BEGIN_SRC shell
+# Create a variable for the target directory and create it
+set -Ux $NPM_GLOBAL_PKGS "$HOME/.npm-global"
+mkdir $NPM_GLOBAL_PKGS
+
+# Next, tell npm about it and install some core packages
+npm config set prefix $NPM_GLOBAL_PKGS
+npm i -g yarn prettier stylelint
+
+# Finally, append them to path for use
+set -Ux fish_user_paths $NPM_GLOBAL_PKGS/bin
+which yarn
 #+END_SRC
