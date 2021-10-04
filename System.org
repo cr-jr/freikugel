@@ -388,7 +388,7 @@ sudo stow -d $SYSCONFIG -t / system
 ** 3. Connect to the internet
 
 #+BEGIN_SRC shell
-nmtui
+sudo nmtui
 #+END_SRC
 
 ** 4. Ensure latest updates
