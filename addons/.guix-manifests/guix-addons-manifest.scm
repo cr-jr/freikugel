@@ -2,7 +2,7 @@
 
 (specifications->manifest
   '("qutebrowser"
-    "mpv"
+    "celluloid"
     "virt-manager"
     "pcmanfm"
     "syncthing-gtk"
