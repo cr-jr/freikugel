@@ -5,8 +5,7 @@
  (nongnu packages linux) (nongnu system linux-initrd))
 
 (use-service-modules
- admin pm desktop sddm xorg virtualization file-sharing syncthing ssh
- docker nix)
+ admin pm desktop sddm xorg virtualization ssh docker nix)
 
 (use-package-modules
  curl wget file-systems linux gnome audio bootloaders certs wm xorg
@@ -73,24 +72,6 @@
     (service qemu-binfmt-service-type
        (qemu-binfmt-configuration
               (platforms (lookup-qemu-platforms "arm" "aarch64"))))
-    (service transmission-daemon-service-type
-       (transmission-daemon-configuration
-              ;; Restrict RPC access
-              (rpc-username "transmission")
-              (rpc-password "{464b30ba31cfe83ffb5692cf78e26613f4d4b865S4sCVYvH")
-              ;; Accept requests only from following hosts:
-              (rpc-whitelist-enabled? #t)
-              (rpc-whitelist '("::1" "127.0.0.1" "192.168.1.*"))
-              ;; Limit bandwidth during work hours
-              (alt-speed-down 1024) ; 1 MB/s
-              (alt-speed-up 256) ; 256 KB/s
-
-              (alt-speed-time-enabled? #t)
-              (alt-speed-time-day 'weekdays)
-              (alt-speed-time-begin (* 60 10)) ; 10:00 am
-              (alt-speed-time-end (* 60 (+ 12 4))))) ; 4:00 pm
-    (service syncthing-service-type
-       (syncthing-configuration (user "cr-jr")))
     (service openssh-service-type)
     (service singularity-service-type)
     (service nix-service-type)
