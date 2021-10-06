@@ -23,4 +23,5 @@
    "dex"
    "wl-clipboard"
    "waybar"
+   "syncthing"
    "wofi"))

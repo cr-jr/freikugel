@@ -45,6 +45,7 @@ Where =guix-addons-manifest.scm= contains:
     "celluloid"
     "virt-manager"
     "pcmanfm"
+    "deluge"
     "syncthing-gtk"
     "picard"
     "krita"

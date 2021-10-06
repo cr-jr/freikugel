@@ -5,6 +5,7 @@
     "celluloid"
     "virt-manager"
     "pcmanfm"
+    "deluge"
     "syncthing-gtk"
     "picard"
     "krita"
