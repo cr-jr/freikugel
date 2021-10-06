@@ -12,4 +12,4 @@ client.focused_inactive $color8 $color8 $foreground
 client.unfocused $background $background $foreground
 
 # Set the wallpaper (automatically with wpgtk)
-output * bg $wallpaper fill
+output * bg $wallpaper stretch
