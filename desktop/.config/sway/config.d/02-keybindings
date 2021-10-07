@@ -124,3 +124,7 @@ mode $audio {
      bindsym q mode "default"
 }
 bindsym $mode_prefix+a mode $audio
+
+# Setting some screenshot bindings
+bindsym Print exec grim -t jpeg ~/Pictures/Screenshots/$(date +%Y%m%d@%H%M%S).jpg
+bindsym $mod+Print exec grim -t jpeg -g "$(slurp)" ~/Pictures/Screenshots/$(date + %Y%m%d@%H%M%S).jpg
