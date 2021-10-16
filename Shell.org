@@ -5,9 +5,12 @@
 - [[#summary][Summary]]
 - [[#installation][Installation]]
 - [[#plugins][Plugins]]
-  - [[#z][z]]
-  - [[#fishtape][fishtape]]
-  - [[#bass][bass]]
+  - [[#1-install-fisher][1. Install Fisher]]
+  - [[#2-install-plugins][2. Install Plugins]]
+  - [[#about-plugins][About Plugins]]
+    - [[#z][z]]
+    - [[#fishtape][fishtape]]
+    - [[#bass][bass]]
 - [[#profile-setup][Profile Setup]]
   - [[#guix][Guix]]
     - [[#1-initialize-profiles][1. Initialize profiles]]
@@ -54,27 +57,37 @@ stow -d $SYSCONFIG -t $HOME shell
 
 My shell of choice is Fish. The main thing I do is grab some extra plugins for functionality and a useful prompt. And the easiest way to manage them is [[https://github.com/jorgebucaran/fisher][fisher]].
 
+** 1. Install Fisher
+
 #+BEGIN_SRC shell
 curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
 #+END_SRC
 
-** z
+** 2. Install Plugins
+
+Fisher can install plugins from the command line, but my preference is to maintain a =fish_plugins=
+file containing my plugins:
+
+#+BEGIN_SRC text :tangle shell/.config/fish/fish_plugins
+jorgebucaran/fisher
+jethrokuan/z
+jorgebucaran/fishtape
+edc/bass
+#+END_SRC
+
+And then running =fisher update= to install them.
+
+** About Plugins
+
+*** z
 
 [[https://github.com/jethrokuan/z][z]] fish is a port of a [[https://github.com/rupa/z][ZShell plugin of the same name]]. It allows me to quickly jump to any directory I've visited recently through fuzzy searching.
 
-#+BEGIN_SRC shell
-fisher install jethrokuan/z
-#+END_SRC
-
-** fishtape
+*** fishtape
 
 [[https://github.com/jorgebucaran/fishtape][Fishtape]] is a test runner for fish shell. I mainly use it to help me test scripts and ensure that my environment is behaving as it should.
 
-#+BEGIN_SRC shell
-fisher install jorgebucaran/fishtape
-#+END_SRC
-
-** bass
+*** bass
 
 #+BEGIN_QUOTE
 Bass does /not/ export bash variables as universal variables, so the script must be executed within
@@ -84,10 +97,6 @@ Bass does /not/ export bash variables as universal variables, so the script must
 [[https://github.com/edc/bass][Bass]] is a POSIX shell compatibility layer for fish. It allows me to use Bash utilities in fish shell
 without having to port the script. This plugin streamlines necessary environment configurations and
 variable assignments that otherwise expect Bash to be the primary shell.
-
-#+BEGIN_SRC shell
-fisher install edc/bass
-#+END_SRC
 
 * Profile Setup
 
