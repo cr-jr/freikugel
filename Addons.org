@@ -7,8 +7,6 @@
   - [[#1-copy-configurations-to-host-machine][1. Copy configurations to host machine]]
   - [[#2-install-packages-from-manifest][2. Install packages from manifest]]
 - [[#apps][Apps]]
-  - [[#editors][Editors]]
-    - [[#emacs][emacs]]
   - [[#music][Music]]
     - [[#mpd][mpd]]
   - [[#video][Video]]
@@ -55,19 +53,6 @@ Where =guix-addons-manifest.scm= contains:
 #+END_SRC
 
 * Apps
-
-** Editors
-
-*** emacs
-
-My Emacs configuration is [[https://github.com/cr-jr/C4][pulled from its own repo]].
-
-#+BEGIN_SRC shell
-set -x EMACS_DIR "$HOME/.config/emacs"
-mkdir -p $EMACS_DIR
-git clone https://github.com/cr-jr/C4.git $EMACS_DIR
-emacs --script $EMACS_DIR/init.el
-#+END_SRC
 
 ** Music
 
