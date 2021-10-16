@@ -558,7 +558,7 @@ profile {
 #+BEGIN_SRC conf-unix :tangle desktop/.config/kitty/kitty.conf
 # Setup fonts
 font_family Victor Mono
-font_size 10.0
+font_size 11.0
 
 # Colors
 
