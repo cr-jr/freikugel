@@ -10,6 +10,7 @@
   - [[#4-setup-emacs][4. Setup Emacs]]
 - [[#setup][Setup]]
   - [[#node][Node]]
+  - [[#deno][Deno]]
 
 * Summary
 
@@ -78,4 +79,20 @@ npm i -g yarn prettier stylelint
 # Finally, append them to path for use
 set -Ux fish_user_paths $NPM_GLOBAL_PKGS/bin
 which yarn
+#+END_SRC
+
+** Deno
+
+Deno also needs the environment variable =DENO_INSTALL_ROOT= to be defined before I can install and
+use command line modules like [[https://github.com/nestdotland/eggs][=eggs=]].
+
+#+BEGIN_SRC shell
+# Define the deno install directory
+set -Ux DENO_INSTALL_ROOT "$HOME/.deno"
+mkdir $DENO_INSTALL_ROOT
+
+# Install some modules
+deno install -Afq --unstable -n eggs https://x.nest.land/eggs@0.3.9/eggs.ts
+deno install -Afq --unstable -n denon https://deno.land/x/denon/denon.ts
+which eggs
 #+END_SRC
