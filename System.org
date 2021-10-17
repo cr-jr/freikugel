@@ -220,6 +220,9 @@ guix pull && hash guix
 guix system init freikugel/system/etc/config.scm /mnt
 #+END_SRC
 
+If installing on a new machine, remember to change the UUIDs in the configuration /before/
+initializing the system.
+
 ** 7. Reboot
 
 #+BEGIN_SRC shell
