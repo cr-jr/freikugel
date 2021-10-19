@@ -40,7 +40,7 @@ Be aware that this repo deliberately has no license. It's nowhere near the state
 comfortable with you taking it for a spin on your own machine or using it as a base for your own
 system configuration.
 
-For one, it's poorly documented and won't help anyone unfamilar with the tools I'm using. It's also
+For one, it's poorly documented and won't help anyone unfamiliar with the tools I'm using. It's also
 missing some vital steps in the system setup. The repo is public at this stage solely for quick access.
 
 I'll remove this section and add a license if it's ever stable and secure enough for other people.
