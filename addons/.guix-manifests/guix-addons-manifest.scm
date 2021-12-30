@@ -2,13 +2,13 @@
 
 (specifications->manifest
   '("qutebrowser"
-    "celluloid"
+    "vlc"
     "virt-manager"
     "pcmanfm"
-    "deluge"
+    "transmission"
+    "transmission:gui"
     "syncthing-gtk"
     "picard"
-    "krita"
     "inkscape"
     "scribus"
     "sonata"))
