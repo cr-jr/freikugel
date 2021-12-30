@@ -2,7 +2,7 @@
 include ~/.cache/wal/colors-sway
 
 # font
-font Victor Mono 10
+font Cousine 10
 
 # focused window
 client.focused $color1 $color1 $foreground $color13

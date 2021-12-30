@@ -57,8 +57,8 @@ Where =guix-desktop-manifest.scm= is:
    "egl-wayland"
    "gnome-themes-standard"
    "gnome-themes-extra"
+   "gnome-settings-daemon"
    "adwaita-icon-theme"
-   "font-victor-mono"
    "font-google-noto"
    "font-awesome"
    "grim"
@@ -68,6 +68,7 @@ Where =guix-desktop-manifest.scm= is:
    "mpd"
    "mpd-mpc"
    "pipewire@0.3"
+   "wireplumber"
    "kanshi"
    "dex"
    "wl-clipboard"
@@ -357,7 +358,7 @@ bar {
 include ~/.cache/wal/colors-sway
 
 # font
-font Victor Mono 10
+font Cousine 10
 
 # focused window
 client.focused $color1 $color1 $foreground $color13
@@ -484,7 +485,7 @@ go because it's simple to configure and works with my theme manager.
 /* Bar base */
 
 window * {
-  font-family: Victor Mono, sans-serif;
+  font-family: Cousine, sans-serif;
   font-size: 0.75rem;
 }
 
@@ -557,8 +558,8 @@ profile {
 
 #+BEGIN_SRC conf-unix :tangle desktop/.config/kitty/kitty.conf
 # Setup fonts
-font_family Victor Mono
-font_size 11.0
+font_family Cousine
+font_size 10.0
 
 # Colors
 
