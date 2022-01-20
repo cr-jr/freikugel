@@ -1,7 +1,7 @@
 ;; This manifest contains Guix packages for my daily apps.
 
 (specifications->manifest
-  '("qutebrowser"
+  '("ungoogled-chromium-wayland"
     "vlc"
     "virt-manager"
     "pcmanfm"
