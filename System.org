@@ -242,7 +242,7 @@ reboot
  admin pm desktop sddm xorg virtualization ssh docker nix)
 
 (use-package-modules
- curl wget file-systems linux gnome audio bootloaders certs wm xorg
+ curl wget file-systems linux firmware gnome audio bootloaders certs wm xorg
  package-management version-control shells freedesktop python)
 
 (operating-system
@@ -279,7 +279,8 @@ reboot
     %base-file-systems))
 
   ;; My system also defines a partition used for swap space, labeled "SWAP".
-  (swap-devices (list (uuid "7cf9340f-fabb-4307-8b43-a323c6590b01")))
+  (swap-devices
+   (list (swap-space (target (uuid "7cf9340f-fabb-4307-8b43-a323c6590b01")))))
 
   ;; Finally, to ensure a proper boot, my system uses the GRUB bootloader.
   ;; Note: my system is also UEFI, so it's configured accordingly. I may get
@@ -317,7 +318,7 @@ reboot
    (append
     (list
      git curl wget exfat-utils fuse-exfat stow nss-certs gvfs ntfs-3g
-     udiskie fish nix sway python)
+     udiskie fish nix sway python ovmf)
     %base-packages))
 
   ;; Create my username: cr-jr
