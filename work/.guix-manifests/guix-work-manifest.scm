@@ -1,8 +1,13 @@
-;; This manifest contains Guix packages for my workflow.
+;; This manifest contains Guix packages for my work and study.
 
 (specifications->manifest
- '("emacs"
+ '("emacs-next-pgtk"
    "node@14"
+   "quickjs"
+   "make"
    "guile"
    "racket"
-   "sbcl"))
+   "sbcl"
+   "clang-toolchain"
+   "gcc-toolchain"
+   "exercism@3"))
