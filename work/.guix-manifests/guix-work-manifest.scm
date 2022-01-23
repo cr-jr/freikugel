@@ -10,9 +10,4 @@
    "sbcl"
    "clang-toolchain"
    "gcc-toolchain"
-   "rust"
-   "rust:rustfmt"
-   "rust:cargo"
-   "rust-clippy"
-   "rust-analyzer"
    "exercism@3"))
