@@ -55,7 +55,7 @@ Where =guix-work-manifest.scm= contains:
 ** 3. Install missing tools from Nix
 
 #+BEGIN_SRC shell
-nix-env -iA nixpkgs.deno nixpkgs.rustup nixpkgs.rakudo
+nix-env -iA nixpkgs.deno nixpkgs.rustup nixpkgs.rust-analyzer nixpkgs.rakudo
 #+END_SRC
 
 ** 4. Setup Emacs
@@ -111,10 +111,4 @@ For Rust, I need to install some toolchains through =rustup=.
 rustup toolchain install stable # for stable build
 rustup toolchain install nightly # for nightly build
 rustup default stable # set stable as the default toolchain
-#+END_SRC
-
-And then I need to install the Rust Language Server.
-
-#+BEGIN_SRC shell
-rustup component add rls
 #+END_SRC
