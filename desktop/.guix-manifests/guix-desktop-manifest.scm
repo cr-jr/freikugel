@@ -3,6 +3,7 @@
 
 (specifications->manifest
  '("glib:bin" ;; needed for gsettings command
+   "glibc-locales"
    "gsettings-desktop-schemas"
    "qtwayland"
    "egl-wayland"

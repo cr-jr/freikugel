@@ -5,6 +5,7 @@
    "node@14"
    "quickjs"
    "make"
+   "glibc-locales"
    "guile"
    "racket"
    "sbcl"

@@ -1,14 +1,16 @@
 ;; This manifest contains Guix packages for my daily apps.
 
 (specifications->manifest
-  '("ungoogled-chromium-wayland"
+  '(
+    "glibc-locales"
+    "ungoogled-chromium-wayland"
     "vlc"
     "virt-manager"
     "pcmanfm"
     "transmission"
     "transmission:gui"
     "syncthing-gtk"
-    "picard"
+    "kid3"
     "inkscape"
     "scribus"
     "sonata"))
