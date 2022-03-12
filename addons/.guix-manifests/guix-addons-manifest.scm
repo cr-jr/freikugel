@@ -3,6 +3,7 @@
 (specifications->manifest
   '(
     "glibc-locales"
+    "pavucontrol"
     "ungoogled-chromium-wayland"
     "vlc"
     "virt-manager"

@@ -19,6 +19,7 @@
    "kitty"
    "mpd"
    "mpd-mpc"
+   "pulseaudio" ;; so I can check up on pipewire
    "pipewire@0.3"
    "wireplumber"
    "kanshi"

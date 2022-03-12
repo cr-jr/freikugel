@@ -31,8 +31,6 @@ setting it up.
 
 ** 1. Copy configuration to host machine
 
-#+BEGIN_SRC
-
 #+BEGIN_SRC shell
 stow -d /path/to/freikugel -t $HOME desktop
 #+END_SRC
@@ -68,6 +66,7 @@ Where =guix-desktop-manifest.scm= is:
    "kitty"
    "mpd"
    "mpd-mpc"
+   "pulseaudio" ;; so I can check up on pipewire
    "pipewire@0.3"
    "wireplumber"
    "kanshi"
