@@ -32,10 +32,10 @@ set $laptop LVDS-1
 set $monitor HDMI-A-1
 
 # Main applications
-set $browser qutebrowser
+set $browser chromium
 set $editor emacs
 set $files pcmanfm
-set $video mpv
+set $video vlc
 set $virt virt-manager
 
 # Mode prompts

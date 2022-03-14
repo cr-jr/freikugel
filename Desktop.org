@@ -57,6 +57,8 @@ Where =guix-desktop-manifest.scm= is:
    "gnome-themes-standard"
    "gnome-themes-extra"
    "gnome-settings-daemon"
+   "libappindicator"
+   "ffmpegthumbnailer"
    "adwaita-icon-theme"
    "font-google-noto"
    "font-awesome"
@@ -124,10 +126,10 @@ set $laptop LVDS-1
 set $monitor HDMI-A-1
 
 # Main applications
-set $browser qutebrowser
+set $browser chromium
 set $editor emacs
 set $files pcmanfm
-set $video mpv
+set $video vlc
 set $virt virt-manager
 
 # Mode prompts
@@ -373,15 +375,10 @@ output * bg $wallpaper stretch
 
 ** GTK+
 
-#+BEGIN_SRC conf :tangle desktop/.xsettingsd
-Net/ThemeName "FlatColor"
-Net/IconThemeName "flattrcolor"
-#+END_SRC
-
 #+BEGIN_SRC conf-unix :tangle desktop/.config/gtk-3.0/settings.ini
 [Settings]
 gtk-theme-name=FlatColor
-gtk-icon-theme-name=flattrcolor
+gtk-icon-theme-name=Adwaita
 gtk-font-name=Input Sans 10
 gtk-cursor-theme-size=24
 gtk-toolbar-style=GTK_TOOLBAR_BOTH_HORIZ

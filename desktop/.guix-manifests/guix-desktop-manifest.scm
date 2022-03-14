@@ -10,6 +10,8 @@
    "gnome-themes-standard"
    "gnome-themes-extra"
    "gnome-settings-daemon"
+   "libappindicator"
+   "ffmpegthumbnailer"
    "adwaita-icon-theme"
    "font-google-noto"
    "font-awesome"
