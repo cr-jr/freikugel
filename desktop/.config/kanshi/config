@@ -1,8 +1,8 @@
 profile {
         output HDMI-A-1 mode 1920x1080 position 0,0 enable
-        output LVDS-1 mode 1366x768 position 1920,312 enable
+        output DVI-I-1 mode 1920x1080 position 1920,0 enable
 }
 
 profile {
-        output HDMI-A-1 disable
+        output DVI-I-1 disable
 }

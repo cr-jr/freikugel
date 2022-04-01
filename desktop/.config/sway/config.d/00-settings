@@ -28,8 +28,8 @@ set $ws9 9
 set $ws10 $10
 
 # Outputs
-set $laptop LVDS-1
-set $monitor HDMI-A-1
+set $main HDMI-A-1
+set $secondary DVI-I-1
 
 # Main applications
 set $browser chromium

@@ -1,6 +1,6 @@
-# Ensure that workspace 1 and 2 output to monitor and laptop
-workspace $ws1 output $monitor $laptop
-workspace $ws2 output $laptop
+# Ensure that workspace 1 and 2 output on main and secondary monitors
+workspace $ws1 output $main $main
+workspace $ws2 output $secondary $main
 
 # borders
 smart_borders on

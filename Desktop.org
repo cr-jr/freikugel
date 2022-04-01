@@ -122,8 +122,8 @@ set $ws9 9
 set $ws10 $10
 
 # Outputs
-set $laptop LVDS-1
-set $monitor HDMI-A-1
+set $main HDMI-A-1
+set $secondary DVI-I-1
 
 # Main applications
 set $browser chromium
@@ -325,9 +325,9 @@ gsettings set "$gnome_schema" font-name "$font_name"
 ** UI
 
 #+BEGIN_SRC conf :tangle desktop/.config/sway/config.d/04-ui
-# Ensure that workspace 1 and 2 output to monitor and laptop
-workspace $ws1 output $monitor $laptop
-workspace $ws2 output $laptop
+# Ensure that workspace 1 and 2 output on main and secondary monitors
+workspace $ws1 output $main $main
+workspace $ws2 output $secondary $main
 
 # borders
 smart_borders on
@@ -543,11 +543,11 @@ window#waybar {
 #+BEGIN_SRC text :tangle desktop/.config/kanshi/config
 profile {
         output HDMI-A-1 mode 1920x1080 position 0,0 enable
-        output LVDS-1 mode 1366x768 position 1920,312 enable
+        output DVI-I-1 mode 1920x1080 position 1920,0 enable
 }
 
 profile {
-        output HDMI-A-1 disable
+        output DVI-I-1 disable
 }
 #+END_SRC
 
