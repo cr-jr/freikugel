@@ -219,6 +219,8 @@ nix-env -iA nixpkgs.diff-so-fancy
   defaultBranch = main
 [github]
   user = cr-jr
+[pull]
+  rebase = false
 #+END_SRC
 
 * SSH Setup
