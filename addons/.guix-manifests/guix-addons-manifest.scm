@@ -4,7 +4,7 @@
   '(
     "glibc-locales"
     "pavucontrol"
-    "ungoogled-chromium-wayland"
+    "qutebrowser@2.5"
     "vlc"
     "virt-manager"
     "pcmanfm"
